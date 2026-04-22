@@ -1,0 +1,170 @@
+---
+title: "Does Urban Vegetation Mitigate High Temperatures Across Cities?"
+author: "Shiyi Zheng & Juanying Huangfu"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(sf)
+library(here)
+library(ggplot2)
+```
+
+# 1. Introduction
+
+China’s rapid urbanization has intensified the urban heat island effect, raising concerns about heat-related risks and long-term urban sustainability. Urban vegetation, commonly measured using the Normalized Difference Vegetation Index (NDVI), is widely recognized as a potential nature-based solution due to its cooling effects through shading and evapotranspiration.
+
+However, the extent to which vegetation effectively reduces temperature across Chinese cities over time remains insufficiently quantified. In particular, variation across regions and vegetation levels may lead to heterogeneous effects that are not captured in aggregate analyses.
+
+This study aims to examine the relationship between vegetation cover and temperature across Chinese prefecture-level cities from 2000 to 2024. By combining NDVI and temperature data, we provide a systematic empirical assessment of whether and how vegetation is associated with urban thermal conditions.
+
+**Research Question:**
+
+- How does vegetation cover (NDVI) affect temperature across Chinese cities over time?
+
+**Sub-questions:**
+
+- How have NDVI and temperature changed over time?
+- Is higher vegetation associated with lower temperatures?
+- Does the relationship vary across regions?
+- How does temperature differ across vegetation levels?
+- Are changes in vegetation associated with changes in temperature?
+
+---
+
+# 2. Hypotheses
+
+# 3. Data
+
+## 3.1 Data Sources
+
+This study uses two main datasets.
+
+Vegetation data are measured using annual NDVI for Chinese prefecture-level cities from 2000 to 2024. These data are derived from MODIS satellite products and aggregated to the city level.
+
+Temperature data consist of annual average temperature at the city level over the same period. These data are obtained from gridded climate datasets and spatially aggregated to match administrative boundaries.
+
+## 3.2 Data Processing
+
+The NDVI data are originally based on monthly raster observations and are aggregated into annual averages. Both NDVI and temperature datasets are spatially averaged within prefecture-level city boundaries using administrative shapefiles.
+
+The two datasets are then merged by city and year to construct a consistent panel dataset.
+
+## 3.3 Final Dataset
+
+The final dataset is a city–year panel covering the period 2000 to 2024.
+
+Key variables include:
+
+- NDVI (annual average vegetation index)
+- Temperature (annual average, °C)
+- City identifier
+- Year
+- Province
+
+---
+
+# 4. Data Wrangling
+
+In this step, the NDVI and temperature datasets are cleaned, standardized, and merged into a unified panel dataset.
+
+The main steps include:
+
+- Standardizing variable formats such as city names and year
+- Converting variables into appropriate data types
+- Merging NDVI and temperature data by city and year
+- Removing missing or inconsistent observations
+- Ensuring a consistent time period across cities
+
+The resulting dataset forms the basis for all subsequent analysis.
+
+```{r}
+# Data import and cleaning steps
+
+```
+
+# 5. Exploratory Data Analysis
+## 5.1 Temporal Trends
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 5.2 Distribution of Key Variables
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 5.3 City-Level Variation
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+
+# 6. Methods and Analysis
+## 6.1 Time Series Analysis
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.2 Correlation and Linear Regression
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.3 Regional Comparison
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.4 Distribution Analysis
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.5 Change Analysis
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.6 Spatial Visualization
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+
+# 7. Results and Interpretation
+Textual Descriptions and Explanations
+
+# 8. Discussion
+Textual Descriptions and Explanations
+
+# 9. Limitations
+Textual Descriptions and Explanations
+
+# 10. Conclusion
+Textual Descriptions and Explanations
+
+# 11. References
+
+# 12. Appendix
+
+
+
