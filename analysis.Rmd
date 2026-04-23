@@ -1,6 +1,6 @@
 ---
 title: "Does Urban Vegetation Mitigate High Temperatures Across Cities?"
-author: ""
+author: "Shiyi Zheng & Juanying Huangfu"
 date: "`r Sys.Date()`"
 output: 
   pdf_document:
