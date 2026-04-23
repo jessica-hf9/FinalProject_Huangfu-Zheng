@@ -1,0 +1,39 @@
+---
+title: "analysis_4_DataWrangling"
+author: "Shiyi Zheng & Juanying Huangfu"
+date: "2026-04-23"
+output: pdf_document
+toc: true
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(sf)
+library(here)
+library(ggplot2)
+
+read.csv()
+```
+
+# 4. Data Wrangling
+
+In this step, the NDVI and temperature datasets are cleaned, standardized, and merged into a unified panel dataset.
+
+The main steps include:
+
+- Standardizing variable formats such as city names and year
+- Converting variables into appropriate data types
+- Merging NDVI and temperature data by city and year
+- Removing missing or inconsistent observations
+- Ensuring a consistent time period across cities
+
+The resulting dataset forms the basis for all subsequent analysis.
+
+```{r}
+# Data import and cleaning steps
+
+```
