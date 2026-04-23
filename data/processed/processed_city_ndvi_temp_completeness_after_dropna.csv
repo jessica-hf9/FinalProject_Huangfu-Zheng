@@ -1,0 +1,375 @@
+city_id,city,n_years
+110000,Beijing,25
+120000,Tianjin,25
+130100,Shijiazhuang,25
+130200,Tangshan,25
+130300,Qinhuangdao,25
+130400,Handan,25
+130500,Xingtai,25
+130600,Baoding,25
+130700,Zhangjiakou,25
+130800,Chengde,25
+130900,Cangzhou,25
+131000,Langfang,25
+131100,Hengshui,25
+140100,Taiyuan,25
+140200,Datong,25
+140300,Yangquan,25
+140400,Changzhi,25
+140500,Jincheng,25
+140600,Shuozhou,25
+140700,Jinzhong,25
+140800,Yuncheng,25
+140900,Xinzhou,25
+141000,Linfen,25
+141100,Lvliang,25
+150100,Hohhot,25
+150200,Baotou,25
+150300,Wuhai,25
+150400,Chifeng,25
+150500,Tongliao,25
+150600,Ordos,25
+150700,Hulunbuir,25
+150800,Bayannur,25
+150900,Ulanqab,25
+152200,Hinggan League,25
+152500,Xilingol League,25
+152900,Alxa League,25
+210100,Shenyang,25
+210200,Dalian,25
+210300,Anshan,25
+210400,Fushun,25
+210500,Benxi,25
+210600,Dandong,25
+210700,Jinzhou,25
+210800,Yingkou,25
+210900,Fuxin,25
+211000,Liaoyang,25
+211100,Panjin,25
+211200,Tieling,25
+211300,Chaoyang,25
+211400,Huludao,25
+220100,Changchun,25
+220200,Jilin,25
+220300,Siping,25
+220400,Liaoyuan,25
+220500,Tonghua,25
+220600,Baishan,25
+220700,Songyuan,25
+220800,Baicheng,25
+222400,Yanbian Korean Autonomous Prefecture,25
+230100,Harbin,25
+230200,Qiqihar,25
+230300,Jixi,25
+230400,Hegang,25
+230500,Shuangyashan,25
+230600,Daqing,25
+230700,Yichun,25
+230800,Jiamusi,25
+230900,Qitaihe,25
+231000,Mudanjiang,25
+231100,Heihe,25
+231200,Suihua,25
+232700,Daxing'anling Prefecture,25
+310000,Shanghai,25
+320100,Nanjing,25
+320200,Wuxi,25
+320300,Xuzhou,25
+320400,Changzhou,25
+320500,Suzhou,25
+320600,Nantong,25
+320700,Lianyungang,25
+320800,Huai'an,25
+320900,Yancheng,25
+321000,Yangzhou,25
+321100,Zhenjiang,25
+321200,Taizhou,25
+321300,Suqian,25
+330100,Hangzhou,25
+330200,Ningbo,25
+330300,Wenzhou,25
+330400,Jiaxing,25
+330500,Huzhou,25
+330600,Shaoxing,25
+330700,Jinhua,25
+330800,Quzhou,25
+330900,Zhoushan,25
+331000,Taizhou,25
+331100,Lishui,25
+340100,Hefei,25
+340200,Wuhu,25
+340300,Bengbu,25
+340400,Huainan,25
+340500,Ma'anshan,25
+340600,Huaibei,25
+340700,Tongling,25
+340800,Anqing,25
+341000,Huangshan,25
+341100,Chuzhou,25
+341200,Fuyang,25
+341300,Suzhou,25
+341500,Lu'an,25
+341600,Bozhou,25
+341700,Chizhou,25
+341800,Xuancheng,25
+350100,Fuzhou,25
+350200,Xiamen,25
+350300,Putian,25
+350400,Sanming,25
+350500,Quanzhou,25
+350600,Zhangzhou,25
+350700,Nanping,25
+350800,Longyan,25
+350900,Ningde,25
+360100,Nanchang,25
+360200,Jingdezhen,25
+360300,Pingxiang,25
+360400,Jiujiang,25
+360500,Xinyu,25
+360600,Yingtan,25
+360700,Ganzhou,25
+360800,Ji'an,25
+360900,Yichun,25
+361000,Fuzhou,25
+361100,Shangrao,25
+370100,Jinan,25
+370200,Qingdao,25
+370300,Zibo,25
+370400,Zaozhuang,25
+370500,Dongying,25
+370600,Yantai,25
+370700,Weifang,25
+370800,Jining,25
+370900,Tai'an,25
+371000,Weihai,25
+371100,Rizhao,25
+371300,Linyi,25
+371400,Dezhou,25
+371500,Liaocheng,25
+371600,Binzhou,25
+371700,Heze,25
+410100,Zhengzhou,25
+410200,Kaifeng,25
+410300,Luoyang,25
+410400,Pingdingshan,25
+410500,Anyang,25
+410600,Hebi,25
+410700,Xinxiang,25
+410800,Jiaozuo,25
+410900,Puyang,25
+411000,Xuchang,25
+411100,Luohe,25
+411200,Sanmenxia,25
+411300,Nanyang,25
+411400,Shangqiu,25
+411500,Xinyang,25
+411600,Zhoukou,25
+411700,Zhumadian,25
+419001,Jiyuan,25
+420100,Wuhan,25
+420200,Huangshi,25
+420300,Shiyan,25
+420500,Yichang,25
+420600,Xiangyang,25
+420700,Ezhou,25
+420800,Jingmen,25
+420900,Xiaogan,25
+421000,Jingzhou,25
+421100,Huanggang,25
+421200,Xianning,25
+421300,Suizhou,25
+422800,Enshi Tujia and Miao Autonomous Prefecture,25
+429004,Xiantao,25
+429005,Qianjiang,25
+429006,Tianmen,25
+429021,Shennongjia Forestry District,25
+430100,Changsha,25
+430200,Zhuzhou,25
+430300,Xiangtan,25
+430400,Hengyang,25
+430500,Shaoyang,25
+430600,Yueyang,25
+430700,Changde,25
+430800,Zhangjiajie,25
+430900,Yiyang,25
+431000,Chenzhou,25
+431100,Yongzhou,25
+431200,Huaihua,25
+431300,Loudi,25
+433100,Xiangxi Tujia and Miao Autonomous Prefecture,25
+440100,Guangzhou,25
+440200,Shaoguan,25
+440300,Shenzhen,25
+440400,Zhuhai,25
+440500,Shantou,25
+440600,Foshan,25
+440700,Jiangmen,25
+440800,Zhanjiang,25
+440900,Maoming,25
+441200,Zhaoqing,25
+441300,Huizhou,25
+441400,Meizhou,25
+441500,Shanwei,25
+441600,Heyuan,25
+441700,Yangjiang,25
+441800,Qingyuan,25
+441900,Dongguan,25
+442000,Zhongshan,25
+445100,Chaozhou,25
+445200,Jieyang,25
+445300,Yunfu,25
+450100,Nanning,25
+450200,Liuzhou,25
+450300,Guilin,25
+450400,Wuzhou,25
+450500,Beihai,25
+450600,Fangchenggang,25
+450700,Qinzhou,25
+450800,Guigang,25
+450900,Yulin,25
+451000,Baise,25
+451100,Hezhou,25
+451200,Hechi,25
+451300,Laibin,25
+451400,Chongzuo,25
+460100,Haikou,25
+460200,Sanya,25
+460300,Sansha,25
+460400,Danzhou,25
+469001,Wuzhishan,25
+469002,Qionghai,25
+469005,Wenchang,25
+469006,Wanning,25
+469007,Dongfang,25
+469021,Ding'an County,25
+469022,Tunchang County,25
+469023,Chengmai County,25
+469024,Lingao County,25
+469025,Baisha Li Autonomous County,25
+469026,Changjiang Li Autonomous County,25
+469027,Ledong Li Autonomous County,25
+469028,Lingshui Li Autonomous County,25
+469029,Baoting Li and Miao Autonomous County,25
+469030,Qiongzhong Li and Miao Autonomous County,25
+500000,Chongqing,25
+510100,Chengdu,25
+510300,Zigong,25
+510400,Panzhihua,25
+510500,Luzhou,25
+510600,Deyang,25
+510700,Mianyang,25
+510800,Guangyuan,25
+510900,Suining,25
+511000,Neijiang,25
+511100,Leshan,25
+511300,Nanchong,25
+511400,Meishan,25
+511500,Yibin,25
+511600,Guang'an,25
+511700,Dazhou,25
+511800,Ya'an,25
+511900,Bazhong,25
+512000,Ziyang,25
+513200,Aba Tibetan and Qiang Autonomous Prefecture,25
+513300,Garze Tibetan Autonomous Prefecture,25
+513400,Liangshan Yi Autonomous Prefecture,25
+520100,Guiyang,25
+520200,Liupanshui,25
+520300,Zunyi,25
+520400,Anshun,25
+520500,Bijie,25
+520600,Tongren,25
+522300,Qianxinan Buyi and Miao Autonomous Prefecture,25
+522600,Qiandongnan Miao and Dong Autonomous Prefecture,25
+522700,Qiannan Buyi and Miao Autonomous Prefecture,25
+530100,Kunming,25
+530300,Qujing,25
+530400,Yuxi,25
+530500,Baoshan,25
+530600,Zhaotong,25
+530700,Lijiang,25
+530800,Pu'er,25
+530900,Lincang,25
+532300,Chuxiong Yi Autonomous Prefecture,25
+532500,Honghe Hani and Yi Autonomous Prefecture,25
+532600,Wenshan Zhuang and Miao Autonomous Prefecture,25
+532800,Xishuangbanna Dai Autonomous Prefecture,25
+532900,Dali Bai Autonomous Prefecture,25
+533100,Dehong Dai and Jingpo Autonomous Prefecture,25
+533300,Nujiang Lisu Autonomous Prefecture,25
+533400,Diqing Tibetan Autonomous Prefecture,25
+540100,Lhasa,25
+540200,Shigatse,25
+540300,Qamdo,25
+540400,Nyingchi,25
+540500,Shannan,25
+540600,Nagqu,25
+542500,Ngari Prefecture,25
+610100,Xi'an,25
+610200,Tongchuan,25
+610300,Baoji,25
+610400,Xianyang,25
+610500,Weinan,25
+610600,Yan'an,25
+610700,Hanzhong,25
+610800,Yulin,25
+610900,Ankang,25
+611000,Shangluo,25
+620100,Lanzhou,25
+620200,Jiayuguan,25
+620300,Jinchang,25
+620400,Baiyin,25
+620500,Tianshui,25
+620600,Wuwei,25
+620700,Zhangye,25
+620800,Pingliang,25
+620900,Jiuquan,25
+621000,Qingyang,25
+621100,Dingxi,25
+621200,Longnan,25
+622900,Linxia Hui Autonomous Prefecture,25
+623000,Gannan Tibetan Autonomous Prefecture,25
+629700,China State Farms Shandan Horse Farm,25
+629800,Lianhua Mountain Scenic Forest Nature Reserve,25
+629900,Taizi Mountain Natural Forest Protection Area,25
+630100,Xining,25
+630200,Haidong,25
+632200,Haibei Tibetan Autonomous Prefecture,25
+632300,Huangnan Tibetan Autonomous Prefecture,25
+632500,Hainan Tibetan Autonomous Prefecture,25
+632600,Golog Tibetan Autonomous Prefecture,25
+632700,Yushu Tibetan Autonomous Prefecture,25
+632800,Haixi Mongol and Tibetan Autonomous Prefecture,25
+640100,Yinchuan,25
+640200,Shizuishan,25
+640300,Wuzhong,25
+640400,Guyuan,25
+640500,Zhongwei,25
+650100,Urumqi,25
+650200,Karamay,25
+650400,Turpan,25
+650500,Hami,25
+652300,Changji Hui Autonomous Prefecture,25
+652700,Bortala Mongol Autonomous Prefecture,25
+652800,Bayingolin Mongol Autonomous Prefecture,25
+652900,Aksu Prefecture,25
+653000,Kizilsu Kyrgyz Autonomous Prefecture,25
+653100,Kashgar Prefecture,25
+653200,Hotan Prefecture,25
+654000,Ili Kazakh Autonomous Prefecture,25
+654200,Tacheng Prefecture,25
+654300,Altay Prefecture,25
+659001,Shihezi,25
+659002,Aral,25
+659003,Tumxuk,25
+659004,Wujiaqu,25
+659005,Beitun,25
+659006,Tiemenguan,25
+659007,Shuanghe,25
+659009,Kunyu,25
+659010,Huyanghe,25
+659011,Xinxing,25
+659012,Baiyang,25
+710000,Taiwan Province,25
+810000,Hong Kong SAR,25
+820000,Macau SAR,25
