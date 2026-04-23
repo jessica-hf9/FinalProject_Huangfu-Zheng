@@ -13,20 +13,151 @@ library(lubridate)
 library(sf)
 library(here)
 library(ggplot2)
+
+here()
 ```
 
 # 5. Exploratory Data Analysis
 ## 5.1 Temporal Trends
-Textual Descriptions and Explanations
+As the first step in the exploratory data analysis, this study examines how NDVI and temperature evolve over time by aggregating city-level observations into annual averages. This transformation simplifies the panel dataset into a time series representation, allowing for a clear overview of long-term dynamics.
+
+Line plots are used to visualize temporal changes in both variables, as they effectively capture year-to-year variation while preserving overall trends. To support interpretation, locally estimated scatterplot smoothing (LOESS) curves are applied to highlight underlying patterns by reducing short-term fluctuations.
+
+The purpose of this step is not to establish relationships between variables, but to provide a descriptive overview of their temporal behavior. By identifying whether NDVI and temperature exhibit increasing, decreasing, or stable trends over the study period, this analysis lays the foundation for subsequent exploration of distributions (Section 5.2) and cross-city heterogeneity (Section 5.3).
 ```{r}
+# 1. Read Data
+library(readr)
+processed_city_ndvi_temp_clean <- read_csv("data/processed/processed_city_ndvi_temp_clean.csv")
+View(processed_city_ndvi_temp_clean)
+
+# 2. Aggregate by year
+ts_data <- processed_city_ndvi_temp_clean %>%
+  group_by(year) %>%
+  summarise(
+    mean_ndvi = mean(ndvi, na.rm = TRUE),
+    mean_temp = mean(temperature, na.rm = TRUE)
+  )
+
+# 3. Temporal Trends of NDVI
+ggplot(ts_data, aes(x = year, y = mean_ndvi)) +
+  geom_line(color = "darkgreen", size = 1) +
+  geom_smooth(method = "loess", color = "darkgrey", se = FALSE) +
+  labs(
+    title = "Temporal Trend of NDVI Across Cities in China (2000–2024)",
+    x = "Year",
+    y = "Mean NDVI",
+    color = "Variable",
+  ) +
+  theme_minimal()
+
+# 4. Temporal Trends of Temperature
+ggplot(ts_data, aes(x = year, y = mean_temp)) +
+  geom_line(color = "darkred", size = 1) +
+  geom_smooth(method = "loess", color = "darkgrey", se = FALSE) +
+  labs(
+    title = "Temporal Trend of Temperature Across Cities in China (2000–2024)",
+    x = "Year",
+    y = "Mean Temperature (°C)"
+  ) +
+  theme_minimal()
 
 ```
+The temporal trend of NDVI shows a clear and consistent upward pattern from 2000 to 2024. The average NDVI increases from approximately 0.44 in the early 2000s to above 0.50 in recent years, indicating a gradual enhancement in vegetation coverage across Chinese cities.Although minor fluctuations are observed in certain years, the overall trajectory remains steadily increasing, as confirmed by the smoothed trend line. This pattern suggests that urban greening efforts, land-use changes, or ecological restoration policies may have contributed to improved vegetation conditions over time.
 
+In contrast, the temporal trend of temperature also exhibits an overall upward trajectory, though with more pronounced interannual variability. The average temperature rises from around 13.0°C in 2000 to above 14.0°C by 2024.The smoothed trend line indicates a relatively stable period in the early 2000s, followed by a clearer warming trend after approximately 2012. The noticeable fluctuations across years reflect the influence of short-term climatic variability, but the long-term pattern remains one of gradual warming.
 ## 5.2 Distribution of Key Variables
-Textual Descriptions and Explanations
+Following the examination of temporal trends, the analysis next focuses on the distribution of key variables across all observations. Understanding the distributional properties of NDVI and temperature is essential for interpreting the overall data structure before conducting further analysis.
+
+Histograms are used as a primary visualization tool to assess how values of NDVI and temperature are distributed across the dataset. These plots provide insights into the range, central tendency, and dispersion of each variable, while also revealing potential skewness or the presence of extreme values. In addition, summary statistics are used to complement the visual analysis by quantifying key characteristics such as mean, median, and variability.
+
+This step serves as a diagnostic check on the dataset. It helps ensure that the variables behave as expected, identifies any potential outliers, and informs subsequent analyses, particularly regression and comparative analysis, where distributional assumptions and data balance may influence results.
 ```{r}
 
+# 1. Reshape for combined exploratory plots
+dist_data <- processed_city_ndvi_temp_clean %>%
+  select(ndvi, temperature) %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "variable",
+    values_to = "value"
+  )
+
+# 2. Histograms with density curves
+ggplot(dist_data, aes(x = value)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 30,
+                 fill = "steelblue",
+                 color = "white",
+                 alpha = 0.8) +
+  geom_density(color = "darkred", linewidth = 1) +
+  facet_wrap(~ variable, scales = "free") +
+  labs(
+    title = "Distributions of NDVI and Temperature",
+    x = "Value",
+    y = "Density"
+  ) +
+  theme_minimal()
+
+# 3. Boxplots for dispersion and potential outliers
+ggplot(dist_data, aes(x = variable, y = value, fill = variable)) +
+  geom_boxplot(alpha = 0.7, outlier.color = "red") +
+  labs(
+    title = "Boxplots of NDVI and Temperature",
+    x = "Variable",
+    y = "Value"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# 4. Separate histogram for NDVI
+ggplot(processed_city_ndvi_temp_clean, aes(x = ndvi)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 30,
+                 fill = "darkgreen",
+                 color = "white",
+                 alpha = 0.8) +
+  geom_density(color = "black", linewidth = 1) +
+  labs(
+    title = "Distribution of NDVI Across All Observations",
+    x = "NDVI",
+    y = "Density"
+  ) +
+  theme_minimal()
+
+# 5. Separate histogram for Temperature
+ggplot(processed_city_ndvi_temp_clean, aes(x = temperature)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 30,
+                 fill = "darkred",
+                 color = "white",
+                 alpha = 0.8) +
+  geom_density(color = "black", linewidth = 1) +
+  labs(
+    title = "Distribution of Temperature Across All Observations",
+    x = "Temperature (°C)",
+    y = "Density"
+  ) +
+  theme_minimal()
+
 ```
+NDVI Distribution
+
+The distribution of NDVI values exhibits a moderately concentrated but slightly multimodal pattern. Most observations fall within the range of approximately 0.38 to 0.61, consistent with the interquartile range, indicating that vegetation coverage across cities is generally at a medium level.
+
+The histogram and density curve suggest the presence of multiple local peaks, particularly around the mid-range values (approximately 0.45–0.65). This pattern may reflect heterogeneity across cities, where different groups of cities exhibit distinct levels of vegetation coverage. While the overall distribution is relatively symmetric, there is a slight left-skew, as indicated by the mean (0.478) being lower than the median (0.495).
+
+The boxplot further confirms that most observations are tightly clustered, with limited extreme values. Although the full range spans from approximately 0.06 to 0.83, outliers are minimal, suggesting a relatively stable distribution of vegetation conditions across the dataset.
+
+
+Temperature Distribution
+
+The distribution of temperature values is more dispersed and exhibits a clearer multimodal structure compared to NDVI. Most observations are concentrated between approximately 8°C and 18°C, with a prominent peak around the mid-teens, as shown by the density curve.
+
+The distribution displays a noticeable left-skew, with a longer tail extending toward lower temperatures. This is consistent with the summary statistics, where the mean (13.49°C) is lower than the median (15.14°C). The left tail reflects the presence of colder cities or years, likely associated with regional climatic differences.
+
+In addition, the density curve suggests multiple peaks, indicating that temperature conditions may cluster into different regimes, potentially corresponding to distinct climatic zones across China.
+
+The boxplot reveals a wider spread compared to NDVI, with a larger interquartile range and several lower-end outliers. This confirms that temperature varies more substantially across observations, highlighting stronger heterogeneity in climatic conditions than in vegetation coverage.
 
 ## 5.3 City-Level Variation
 Textual Descriptions and Explanations
