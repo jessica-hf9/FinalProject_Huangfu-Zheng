@@ -44,14 +44,12 @@ dir.create(here("data", "processed"), showWarnings = FALSE, recursive = TRUE)
 
 # 1. Read raw data
 
-temp_raw <- read_csv(
-  here("data", "raw", "clty level_temp_2000-2024.csv"),
-  show_col_types = FALSE
+temp_raw <- read.csv(
+  here("data", "raw", "clty level_temp_2000-2024.csv")
 )
 
-ndvi_raw <- read_csv(
-  here("data", "raw", "city level_ndvi_2000-2024.csv"),
-  show_col_types = FALSE
+ndvi_raw <- read.csv(
+  here("data", "raw", "city level_ndvi_2000-2024.csv")
 )
 
 # 2. Define year columns

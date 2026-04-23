@@ -13,14 +13,120 @@ library(lubridate)
 library(sf)
 library(here)
 library(ggplot2)
+library(trend)
 ```
 
 # 6. Methods and Analysis
-## 6.1 Time Series Analysis
-Textual Descriptions and Explanations
-```{r}
 
+## 6.1 Time Series Analysis
+
+This section examines long-term trends in NDVI and temperature over time. 
+Following the logic of the course time series exercises, we first aggregate the panel data to yearly averages, then use line plots and smoothed trend lines to visualize temporal patterns. 
+Because our dataset is annual rather than monthly or daily, the main focus here is long-term trend detection rather than seasonal decomposition.
+
+```{r}
+data_clean <- read.csv(
+  here("data", "processed", "processed_city_ndvi_temp_clean.csv"),
+  stringsAsFactors = FALSE
+)
+
+# Aggregate city-year panel data to annual mean values across all cities
+annual_summary <- data_clean %>%
+  group_by(year) %>%
+  summarise(
+    mean_ndvi = mean(ndvi, na.rm = TRUE),
+    mean_temperature = mean(temperature, na.rm = TRUE),
+    sd_ndvi = sd(ndvi, na.rm = TRUE),
+    sd_temperature = sd(temperature, na.rm = TRUE),
+    n_cities = n_distinct(city),
+    .groups = "drop"
+  )
+
+annual_summary
 ```
+The aggregated dataset summarizes the average vegetation and temperature conditions across Chinese prefecture-level cities for each year from 2000 to 2024.
+
+```{r}
+# 1. Smoothed trend plots
+# NDVI Trend Over Time
+ggplot(annual_summary, aes(x = year, y = mean_ndvi)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 2) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1) +
+  labs(
+    title = "Average NDVI Across Chinese Cities, 2000–2024",
+    x = "Year",
+    y = "Mean NDVI"
+  )
+
+# Temperature Trend Over Time
+ggplot(annual_summary, aes(x = year, y = mean_temperature)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 2) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1) +
+  labs(
+    title = "Average Temperature Across Chinese Cities, 2000–2024",
+    x = "Year",
+    y = "Mean Temperature (°C)"
+  )
+```
+
+The time series plots show a clear upward trend in both NDVI and temperature from 2000 to 2024, but the patterns are not identical.
+
+NDVI increases quite steadily over time. There are small fluctuations in the early 2000s, but after around 2010 the increase becomes more consistent, and the overall trend is very smooth. This suggests that vegetation coverage in Chinese cities has been gradually improving over the past two decades.
+
+Temperature also shows an overall increasing trend, but the pattern is more variable. There is a noticeable dip around 2010–2012, followed by a steady increase afterward. Compared to NDVI, temperature changes are less smooth and show more short-term fluctuations, which is expected given the influence of climate variability.
+
+```{r}
+# 2. Time series object representation
+# Create annual time series objects
+ndvi_ts <- ts(
+  annual_summary$mean_ndvi,
+  start = min(annual_summary$year),
+  frequency = 1
+)
+
+temp_ts <- ts(
+  annual_summary$mean_temperature,
+  start = min(annual_summary$year),
+  frequency = 1
+)
+
+# Plot time series objects
+plot(
+  ndvi_ts,
+  main = "NDVI Time Series (Annual Average)",
+  xlab = "Year",
+  ylab = "Mean NDVI"
+)
+
+plot(
+  temp_ts,
+  main = "Temperature Time Series (Annual Average)",
+  xlab = "Year",
+  ylab = "Mean Temperature (°C)"
+)
+```
+
+These time series plots show the same patterns in a more direct way, without smoothing. The upward trends in both NDVI and temperature are clearly visible, although year-to-year variation is more noticeable compared to the smoothed plots.
+
+```{r}
+# 3. Mann-Kendall Trend Tests
+ndvi_mk <- mk.test(ndvi_ts)
+temp_mk <- mk.test(temp_ts)
+
+ndvi_mk
+temp_mk
+```
+The Mann-Kendall test results support what we observe in the plots. NDVI shows a very strong and statistically significant increasing trend (z = 6.19, p < 0.001, τ = 0.89), indicating that the upward trend is highly consistent over time.
+
+Temperature also shows a statistically significant increasing trend (z = 3.53, p < 0.001, τ = 0.51), although the strength of the trend is more moderate compared to NDVI.
+
+One important takeaway is that both vegetation and temperature are increasing at the same time. This is directly relevant to our research question.
+
+If vegetation has a cooling effect, we might expect higher NDVI to be associated with lower temperatures. However, the fact that both variables increase over time suggests that there may be broader factors, such as climate change, driving temperature upward.
+
+This also highlights an important issue for the next step of the analysis: we need to separate the effect of vegetation from overall time trends, rather than relying only on simple correlations.
 
 ## 6.2 Correlation and Linear Regression
 Textual Descriptions and Explanations
