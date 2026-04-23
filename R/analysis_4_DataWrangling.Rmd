@@ -16,7 +16,7 @@ library(sf)
 library(here)
 library(ggplot2)
 
-read.csv()
+here()
 ```
 
 # 4. Data Wrangling
@@ -36,4 +36,174 @@ The resulting dataset forms the basis for all subsequent analysis.
 ```{r}
 # Data import and cleaning steps
 
+# check project root
+here()
+
+# create processed folder if it does not exist
+dir.create(here("data", "processed"), showWarnings = FALSE, recursive = TRUE)
+
+# 1. Read raw data
+
+temp_raw <- read_csv(
+  here("data", "raw", "clty level_temp_2000-2024.csv"),
+  show_col_types = FALSE
+)
+
+ndvi_raw <- read_csv(
+  here("data", "raw", "city level_ndvi_2000-2024.csv"),
+  show_col_types = FALSE
+)
+
+# 2. Define year columns
+
+year_cols <- as.character(2000:2024)
+
+# 3. Reshape temperature data to long format
+
+temp_long <- temp_raw %>%
+  clean_names_basic() %>%
+  pivot_longer(
+    cols = any_of(year_cols),
+    names_to = "year",
+    values_to = "temperature"
+  ) %>%
+  mutate(
+    year = as.integer(year),
+    temperature = as.numeric(temperature)
+  ) %>%
+  arrange(city_id, year)
+
+# 4. Reshape NDVI data to long format
+
+ndvi_long <- ndvi_raw %>%
+  clean_names_basic() %>%
+  pivot_longer(
+    cols = any_of(year_cols),
+    names_to = "year",
+    values_to = "ndvi"
+  ) %>%
+  mutate(
+    year = as.integer(year),
+    ndvi = as.numeric(ndvi)
+  ) %>%
+  arrange(city_id, year)
+
+
+# 5. Check duplicate city-year observations
+
+panel_check_temp <- temp_long %>%
+  count(city_id, year) %>%
+  filter(n > 1)
+
+panel_check_ndvi <- ndvi_long %>%
+  count(city_id, year) %>%
+  filter(n > 1)
+
+# 6. Merge temperature and NDVI
+
+processed_city_panel <- temp_long %>%
+  left_join(
+    ndvi_long,
+    by = c("city_id", "city", "pr_id", "province", "year")
+  ) %>%
+  mutate(
+    temp_anomaly = temperature - mean(temperature, na.rm = TRUE),
+    ndvi_z = as.numeric(scale(ndvi)),
+    temperature_z = as.numeric(scale(temperature))
+  ) %>%
+  select(
+    city_id, city, pr_id, province, year,
+    ndvi, temperature, ndvi_z, temperature_z, temp_anomaly
+  ) %>%
+  arrange(city_id, year)
+
+
+# 7. Summary before dropping missing values
+
+missing_summary_before <- processed_city_panel %>%
+  summarise(
+    n_rows = n(),
+    n_cities = n_distinct(city_id),
+    year_min = min(year, na.rm = TRUE),
+    year_max = max(year, na.rm = TRUE),
+    missing_ndvi = sum(is.na(ndvi)),
+    missing_temperature = sum(is.na(temperature))
+  )
+
+city_year_completeness_before <- processed_city_panel %>%
+  group_by(city_id, city) %>%
+  summarise(
+    n_years = n(),
+    missing_ndvi = sum(is.na(ndvi)),
+    missing_temperature = sum(is.na(temperature)),
+    .groups = "drop"
+  )
+
+
+# 8. Drop rows with missing values
+
+
+processed_city_panel_clean <- processed_city_panel %>%
+  drop_na(ndvi, temperature)
+
+
+# 9. Summary after dropping missing values
+
+
+missing_summary_after <- processed_city_panel_clean %>%
+  summarise(
+    n_rows = n(),
+    n_cities = n_distinct(city_id),
+    year_min = min(year, na.rm = TRUE),
+    year_max = max(year, na.rm = TRUE),
+    missing_ndvi = sum(is.na(ndvi)),
+    missing_temperature = sum(is.na(temperature))
+  )
+
+city_year_completeness_after <- processed_city_panel_clean %>%
+  group_by(city_id, city) %>%
+  summarise(
+    n_years = n(),
+    .groups = "drop"
+  )
+
+
+# 10. Export processed files
+
+write_csv(
+  processed_city_panel_clean,
+  here("data", "processed", "processed_city_ndvi_temp_clean.csv")
+)
+
+write_csv(
+  missing_summary_before,
+  here("data", "processed", "processed_city_ndvi_temp_summary_before_dropna.csv")
+)
+
+write_csv(
+  missing_summary_after,
+  here("data", "processed", "processed_city_ndvi_temp_summary_after_dropna.csv")
+)
+
+write_csv(
+  city_year_completeness_before,
+  here("data", "processed", "processed_city_ndvi_temp_completeness_before_dropna.csv")
+)
+
+write_csv(
+  city_year_completeness_after,
+  here("data", "processed", "processed_city_ndvi_temp_completeness_after_dropna.csv")
+)
+
+saveRDS(
+  processed_city_panel_clean,
+  here("data", "processed", "processed_city_ndvi_temp_clean.rds")
+)
+
+# 11. Print checks
+
+print(missing_summary_before)
+print(missing_summary_after)
+print(panel_check_temp)
+print(panel_check_ndvi)
 ```
