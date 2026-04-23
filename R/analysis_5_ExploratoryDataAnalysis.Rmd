@@ -1,0 +1,35 @@
+---
+title: "analysis_5_ExploratoryDataAnalysis"
+author: "Shiyi Zheng & Juanying Huangfu"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(sf)
+library(here)
+library(ggplot2)
+```
+
+# 5. Exploratory Data Analysis
+## 5.1 Temporal Trends
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 5.2 Distribution of Key Variables
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 5.3 City-Level Variation
+Textual Descriptions and Explanations
+```{r}
+
+```
