@@ -1,0 +1,53 @@
+---
+title: "analysis_6_MethodsandAnalysis"
+author: "Shiyi Zheng & Juanying Huangfu"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(sf)
+library(here)
+library(ggplot2)
+```
+
+# 6. Methods and Analysis
+## 6.1 Time Series Analysis
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.2 Correlation and Linear Regression
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.3 Regional Comparison
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.4 Distribution Analysis
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.5 Change Analysis
+Textual Descriptions and Explanations
+```{r}
+
+```
+
+## 6.6 Spatial Visualization
+Textual Descriptions and Explanations
+```{r}
+
+```
