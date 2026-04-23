@@ -21,11 +21,11 @@ library(ggplot2)
 
 # 1. Introduction
 
-China’s rapid urbanization has intensified the urban heat island effect, raising concerns about heat-related risks and long-term urban sustainability. Urban vegetation, commonly measured using the Normalized Difference Vegetation Index (NDVI), is widely recognized as a potential nature-based solution due to its cooling effects through shading and evapotranspiration.
+China’s rapid urbanization over the past decades has significantly intensified the Urban Heat Island effect (UHI), leading to rising urban temperatures and increasing concerns over heat-related health risks, energy demand, and long-term urban sustainability. Empirical studies have shown that urban areas in China have experienced faster warming trends compared to surrounding rural regions, largely driven by land-use change and the expansion of impervious surfaces (Zhou et al., 2014).Urban vegetation, commonly measured using the Normalized Difference Vegetation Index (NDVI), has been widely recognized as an effective nature-based solution to mitigate urban heat. Vegetation can reduce surface and air temperatures through mechanisms such as shading and evapotranspiration, thereby improving thermal comfort and reducing heat exposure(Bowler et al., 2010). And remote sensing studies using NDVI have consistently found negative associations between vegetation cover and land surface temperature across urban environments(Peng et al., 2011).
 
-However, the extent to which vegetation effectively reduces temperature across Chinese cities over time remains insufficiently quantified. In particular, variation across regions and vegetation levels may lead to heterogeneous effects that are not captured in aggregate analyses.
+However, despite this well-established relationship, the extent to which vegetation mitigates temperature across Chinese cities over time remains insufficiently quantified. Most existing studies focus on single cities or short time periods, limiting the ability to capture long-term dynamics and cross-city variability. Moreover, regional heterogeneity—such as differences in climate zones, urban form, and baseline vegetation coverage—may lead to substantial variation in the strength and direction of the NDVI–temperature relationship(Zhao et al., 2014).
 
-This study aims to examine the relationship between vegetation cover and temperature across Chinese prefecture-level cities from 2000 to 2024. By combining NDVI and temperature data, we provide a systematic empirical assessment of whether and how vegetation is associated with urban thermal conditions.
+To address these gaps, this study conducts a multi-city analysis across Chinese prefecture-level cities from 2000 to 2024, integrating NDVI and temperature data to examine both temporal trends and cross-sectional relationships. Specifically, the analysis explores (1) long-term changes in vegetation and temperature, (2) the overall association between NDVI and temperature, (3) regional differences in this relationship, and (4) whether changes in vegetation are associated with corresponding changes in temperature over time. By combining time series analysis, regression approaches, and spatial visualization, this study aims to provide a systematic comprehensive understanding of the role of urban vegetation in mitigating heat across rapidly urbanizing regions.
 
 **Research Question:**
 
@@ -163,6 +163,7 @@ Textual Descriptions and Explanations
 Textual Descriptions and Explanations
 
 # 11. References
+https://www.mybib.com/j/KnowingFragileSwan
 
 # 12. Appendix
 ```{r eval=FALSE, include=FALSE}
