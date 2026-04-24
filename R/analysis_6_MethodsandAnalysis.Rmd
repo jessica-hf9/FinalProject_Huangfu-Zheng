@@ -147,7 +147,7 @@ summary(ndvi_temp)
 # 1. Scatter plot with fitted linear trend
 ggplot(ndvi_temp, aes(x = ndvi, y = temperature)) +
   geom_point(alpha = 0.3, size = 1.8) +
-  geom_smooth(method = "lm", se = TRUE, color = "black") +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
   labs(
     title = "Temperature and NDVI Across Chinese Cities",
     x = "NDVI",
@@ -182,10 +182,131 @@ This result is quite different from what we might expect if vegetation had a sim
 
 
 ## 6.3 Regional Comparison
-Textual Descriptions and Explanations
-```{r}
 
+In this section, we explore whether the relationship between NDVI and temperature differs across regions in China. 
+To do this, we classify cities into major geographic regions (e.g., North China, East China, South China) based on their province and then compare patterns across these groups.
+
+```{r}
+# 1.  create region classification based on province
+data_clean <- data_clean %>%
+  mutate(
+    region = case_when(
+      # North China
+      province %in% c(
+        "Beijing Municipality",
+        "Tianjin Municipality",
+        "Hebei Province",
+        "Shanxi Province",
+        "Inner Mongolia Autonomous Region"
+      ) ~ "North China",
+
+      # East China
+      province %in% c(
+        "Shanghai Municipality",
+        "Jiangsu Province",
+        "Zhejiang Province",
+        "Anhui Province",
+        "Fujian Province",
+        "Jiangxi Province",
+        "Shandong Province",
+        "Taiwan Province"
+      ) ~ "East China",
+
+      # Central China
+      province %in% c(
+        "Henan Province",
+        "Hubei Province",
+        "Hunan Province"
+      ) ~ "Central China",
+
+      # South China
+      province %in% c(
+        "Guangdong Province",
+        "Guangxi Zhuang Autonomous Region",
+        "Hainan Province",
+        "Hong Kong SAR",
+        "Macau SAR"
+      ) ~ "South China",
+
+      # Southwest
+      province %in% c(
+        "Chongqing Municipality",
+        "Sichuan Province",
+        "Guizhou Province",
+        "Yunnan Province",
+        "Tibet Autonomous Region"
+      ) ~ "Southwest",
+
+      # Northwest
+      province %in% c(
+        "Shaanxi Province",
+        "Gansu Province",
+        "Qinghai Province",
+        "Ningxia Hui Autonomous Region",
+        "Xinjiang Uygur Autonomous Region"
+      ) ~ "Northwest",
+
+      # Northeast
+      province %in% c(
+        "Liaoning Province",
+        "Jilin Province",
+        "Heilongjiang Province"
+      ) ~ "Northeast",
+
+      TRUE ~ "Other"
+    )
+  )
+table(data_clean$region)
 ```
+
+
+
+```{r}
+# 2. scatter plot by region
+ggplot(data_clean, aes(x = ndvi, y = temperature)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  facet_wrap(~ region) +
+  labs(
+    title = "NDVI and Temperature by Region",
+    x = "NDVI",
+    y = "Temperature (°C)"
+  )
+```
+
+The relationship between NDVI and temperature clearly differs across regions, and the patterns are not uniform.
+
+In East China, North China, and Southwest China, the relationship is strongly positive. In these regions, higher NDVI is consistently associated with higher temperature, and the slope is quite steep. This is especially clear in Southwest China, where the trend line increases sharply as NDVI increases.
+
+In contrast, the Northeast shows a different pattern. The relationship there is slightly negative, suggesting that higher NDVI may be associated with lower temperature in that region. This is the only region where the pattern looks closer to the expected “cooling effect” of vegetation.
+
+Other regions, such as Northwest and Central China, show weaker or more mixed patterns. The points are more scattered, and the slope is flatter, suggesting that the relationship is less stable.
+
+Overall, the figure suggests that the NDVI–temperature relationship is highly region-dependent, rather than following a single national pattern.
+
+```{r}
+# 3. interaction regression
+region_lm <- lm(temperature ~ ndvi * region, data = data_clean)
+summary(region_lm)
+```
+
+The regression results confirm what we see in the plots. The interaction terms between NDVI and region are mostly significant, which means the slope of NDVI is different across regions.
+
+For the baseline region (Central China), the coefficient on NDVI is small and not statistically significant, suggesting that NDVI is not strongly related to temperature there.
+
+However, once we look at other regions, the pattern changes. In East China and North China, the interaction terms are large and positive, indicating that NDVI has a much stronger positive association with temperature in these regions. In Southwest China, the effect is extremely strong, with a very steep increase in temperature as NDVI rises.
+
+In contrast, the Northeast shows a negative interaction effect, meaning that the relationship between NDVI and temperature becomes negative in that region. This aligns with the visual pattern in the scatter plot.
+
+Overall, the regression results suggest that the relationship between vegetation and temperature is not only non-uniform, but can even change direction depending on the region.
+
+One important takeaway is that regional climate and geography seem to play a major role in shaping this relationship.
+
+In warmer regions, such as South China and Southwest China, higher NDVI tends to coincide with higher temperatures. This likely reflects underlying climate conditions, where both vegetation and temperature are naturally higher.
+
+In colder regions, such as the Northeast, the relationship appears closer to what we might expect, with higher vegetation potentially linked to lower temperature.
+
+This suggests that the simple relationship between NDVI and temperature cannot be interpreted in isolation. Instead, it is strongly influenced by broader environmental conditions. This also reinforces the idea from the previous section that we need to be careful when interpreting the NDVI–temperature relationship, as it may be driven by shared geographic and climatic factors rather than a direct causal effect.
 
 ## 6.4 Distribution Analysis
 Textual Descriptions and Explanations
