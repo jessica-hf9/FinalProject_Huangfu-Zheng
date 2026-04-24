@@ -131,7 +131,9 @@ ggplot(dist_data, aes(x = value, fill = variable)) +
   ) +
   theme_minimal()
 ```
-The distributions of NDVI and temperature exhibit distinct patterns across all observations. NDVI values are relatively concentrated within a narrower range, with most observations clustered between approximately 0.4 and 0.65. The density curve shows a slightly multimodal shape, indicating the presence of multiple concentration points within the mid-range values.
+The distributions of NDVI and temperature exhibit distinct patterns across all observations. 
+
+NDVI values are relatively concentrated within a narrower range, with most observations clustered between approximately 0.4 and 0.7. The density curve shows a slightly multimodal shape, indicating the presence of multiple concentration points within the mid-range values.
 
 In contrast, temperature values display a wider spread, ranging from below 0°C to above 20°C. The distribution is more dispersed, with a dominant peak around the mid-teens, and a longer tail extending toward lower temperatures. The density curve also suggests multiple local peaks, reflecting variation across observations.
 
@@ -150,11 +152,13 @@ ggplot(dist_data, aes(x = variable, y = value, fill = variable)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
-The boxplots provide a clearer view of the dispersion and range of NDVI and temperature values. NDVI values are relatively concentrated, with a narrow interquartile range centered around approximately 0.4 to 0.6. The median is close to the center of the box, indicating a fairly balanced distribution, and there are few visible outliers.
+The boxplots provide a clearer view of the dispersion and range of NDVI and temperature values.
 
-In contrast, temperature exhibits a much wider spread. The interquartile range spans a larger interval, and the overall range extends from below 0°C to above 25°C. Several lower-end outliers are observed, indicating the presence of relatively low temperature values within the dataset.
+NDVI values are relatively concentrated, with most observations falling within a narrower interquartile range centered around approximately 0.4 to 0.6. The overall range extends to both lower and higher values, indicating some variation across observations, but the distribution remains relatively compact.
 
-Overall, the boxplots confirm that temperature shows greater variability and dispersion than NDVI, while NDVI values remain more tightly clustered.
+In contrast, temperature exhibits a much wider spread. The interquartile range is larger, and the whiskers extend over a broader range compared to NDVI. A few observations appear below the lower whisker, indicating the presence of lower-end values outside the main distribution.
+
+Overall, the boxplots show that temperature has greater dispersion than NDVI, while NDVI values remain more tightly clustered.
 
 ```{r}
 # 4. Separate histogram for NDVI
@@ -172,7 +176,7 @@ ggplot(processed_city_ndvi_temp_clean, aes(x = ndvi)) +
   ) +
   theme_minimal()
 ```
-The distribution of NDVI values is relatively concentrated within the mid-range, with most observations falling between approximately 0.4 and 0.65. The density curve indicates a slightly multimodal pattern, with two noticeable peaks within this interval.
+The distribution of NDVI values is relatively concentrated within the mid-range, with most observations falling between approximately 0.4 and 0.7. The density curve indicates a slightly multimodal pattern, with two noticeable peaks within this interval.
 
 Lower NDVI values (below 0.3) are less frequent, and only a small number of observations extend toward higher values above 0.7. Overall, the distribution suggests that most cities exhibit moderate levels of vegetation coverage, with limited extreme values.
 
@@ -251,9 +255,9 @@ ggplot(processed_city_ndvi_temp_clean,
 ```
 The city-level trajectories reveal substantial heterogeneity across cities for both NDVI and temperature. Individual city trends, shown by the semi-transparent lines, vary widely in both level and variation over time.
 
-For NDVI, although the overall smoothed trend indicates a gradual increase, individual cities exhibit different starting points and trajectories. Some cities consistently maintain higher NDVI levels, while others remain at lower levels throughout the period. This variation suggests that the increase observed in the aggregate trend is not uniform across all cities.
+The city-level NDVI trajectories show clear variation across cities. From the figure, most NDVI values appear to fall roughly between 0.2 and 0.8, while the smoothed trend line gradually increases from about 0.44 in 2000 to above 0.50 by 2024.Although the aggregate smoothed trend is upward, the individual city lines are spread across different NDVI levels. This suggests that average vegetation conditions differ across cities and that the overall trend does not fully represent every city’s trajectory.
 
-A similar pattern is observed for temperature. While the overall trend shows a gradual increase, individual city trajectories display considerable dispersion, with noticeable differences in both baseline temperature levels and year-to-year variability.
+The city-level temperature trajectories show wider vertical dispersion than NDVI. From the figure, temperature values range broadly from below 0°C to above 20°C for many city-year observations. The smoothed trend line increases gradually over time, especially after the early 2010s.The spread of individual lines indicates that cities differ substantially in their temperature levels. Therefore, the average warming pattern should be interpreted as an overall tendency rather than a uniform trend across all cities.
 
 Overall, these results indicate that aggregate trends may mask substantial differences across cities. The observed heterogeneity highlights the importance of examining city-level variation rather than relying solely on averaged patterns.
 
