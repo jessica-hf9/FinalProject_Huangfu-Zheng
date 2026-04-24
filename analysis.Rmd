@@ -82,7 +82,7 @@ Key variables include:
 
 -   NDVI (annual average vegetation index)
 -   Temperature (annual average, °C)
--   City identifier
+-   City
 -   Year
 -   Province
 
