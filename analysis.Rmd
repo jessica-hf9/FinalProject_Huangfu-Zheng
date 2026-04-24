@@ -190,7 +190,6 @@ Grouping observations by NDVI levels reveals a clear monotonic relationship betw
 Although there is variability within each group, the upward shift in both median and interquartile range across NDVI categories is consistent, reinforcing the positive association identified in the correlation and regression analyses.
 
 ## 7.7 Year-to-Year Changes
-
 The analysis of first differences examines the relationship between annual changes in NDVI and temperature. The scatter plot shows a positive slope in the fitted linear trend, indicating that increases in NDVI are generally associated with increases in temperature at the year-to-year level. However, the data points are highly concentrated around zero, suggesting that most annual changes are relatively small.
 
 At the same time, several extreme observations are present, with large positive or negative changes in either variable. Overall, the relationship in first differences appears weaker and more dispersed compared to the level-based analysis, indicating that the NDVI–temperature association is more clearly observed over long-term trends rather than short-term fluctuations.
@@ -204,6 +203,41 @@ The results show that both NDVI and temperature have increased significantly acr
 
 The simultaneous increase in NDVI and temperature observed in this study therefore reflects broader coupled dynamics rather than independent trends. Rising temperatures may enhance vegetation growth by extending growing seasons and increasing photosynthetic activity in some regions (Piao et al., 2006), while policy-driven afforestation and land management programs have further amplified vegetation expansion (Liu et al., 2008). These processes together explain why NDVI and temperature increase in parallel over time.
 
+## 8.2 NDVI Is Positively Associated with Temperature at the National Scale Rather Than Exhibiting a Cooling Effect
+The empirical results do not support a simple negative relationship between vegetation and temperature at the national scale. Instead, the analysis consistently shows a positive association between NDVI and temperature across Chinese cities.
+
+This finding may appear to contradict the commonly accepted cooling effect of vegetation, which operates through shading and evapotranspiration (Bowler et al., 2010). However, this apparent contradiction can be explained by the scale of analysis. At large spatial scales, temperature is often a key driver of vegetation productivity, meaning that warmer regions tend to have higher NDVI values (Nemani et al., 2003). As a result, the observed positive relationship primarily reflects how climate influences vegetation, rather than how vegetation modifies temperature.
+
+In other words, the results suggest that temperature exerts a stronger influence on NDVI than NDVI exerts on temperature at the city-year scale. This distinction between climatic control and local cooling effects is widely recognized in the literature (Zhou et al., 2004).
+
+## 8.3 The NDVI–Temperature Relationship Varies Substantially Across Regions
+The results clearly show that the NDVI–temperature relationship varies substantially across regions. Some regions exhibit strong positive relationships, while others show weak or even negative associations.
+
+This spatial heterogeneity is consistent with previous studies showing that vegetation–climate interactions depend heavily on regional environmental conditions (Zhang et al., 2001). In colder regions such as Northeast China, vegetation growth may be constrained by temperature, leading to different response patterns compared to warmer regions. In contrast, in humid and subtropical regions, vegetation may already be abundant, and additional temperature increases may not translate into the same vegetation response.
+
+Urbanization may also contribute to these regional differences. Studies have shown that urban heat island effects can alter the relationship between vegetation and temperature, while vegetation distribution is shaped by land-use patterns and urban planning (Zhou et al., 2004). As a result, the observed NDVI–temperature relationship reflects a combination of climatic gradients, ecological processes, and human activities.
+
+## 8.4 Higher NDVI Levels Are Associated with Higher Temperatures Due to Underlying Climatic Gradients
+
+The NDVI group analysis indicates that temperature increases systematically with higher vegetation levels. While this pattern may appear inconsistent with the widely documented cooling effects of vegetation, it is more plausibly explained by underlying climatic gradients rather than direct causal effects of vegetation on temperature.
+
+At large spatial scales, vegetation distribution is strongly constrained by climate, particularly temperature and water availability. Warmer and more humid regions tend to support higher vegetation productivity, while colder or arid regions exhibit lower NDVI values. As a result, NDVI and temperature often co-vary spatially due to shared environmental drivers. This interpretation is consistent with global-scale studies demonstrating that terrestrial vegetation activity is closely linked to climate variability, especially temperature and precipitation (Nemani et al., 2003).
+
+Furthermore, studies on vegetation–climate interactions have shown that vegetation responses are not uniform but vary across environmental gradients and ecosystems (Seddon et al., 2016). Therefore, the positive association observed in this study is best understood as a reflection of large-scale climatic controls on vegetation, rather than evidence of a direct warming effect of vegetation.
+
+## 8.5 The NDVI–Temperature Relationship Is Stronger Over Long-Term Trends Than Short-Term Changes
+The first-difference analysis reveals a weaker and more dispersed relationship between changes in NDVI and changes in temperature, suggesting that the association is less pronounced at short temporal scales. This contrast indicates that the NDVI–temperature relationship is more robust in long-term trends than in year-to-year variability.
+
+This finding aligns with previous research showing that vegetation–climate relationships are more clearly observed over longer time scales, while short-term dynamics are influenced by transient climatic variability and disturbances. For example, Piao et al. (2010) highlight that interannual variability in vegetation activity is strongly affected by short-term climate fluctuations, which may obscure longer-term relationships. Similarly, Pettorelli et al. (2005) note that NDVI is sensitive to seasonal and interannual variation, including phenological changes, which may not directly reflect structural shifts in vegetation cover.
+
+As a result, the weaker relationship observed in first differences suggests that NDVI and temperature co-evolve over time primarily through long-term processes, while short-term interactions are more variable and less predictable.
+
+## 8.6 Vegetation Cooling Effects Are Not Captured at the City-Year Scale of Analysis
+Taken together, the results suggest that vegetation cover, as measured by NDVI, does not exhibit a uniform cooling effect on temperature across Chinese cities at the city-year scale. Instead, the observed positive association reflects the dominance of large-scale climatic gradients in the aggregated data.
+
+This finding highlights the importance of spatial scale in interpreting vegetation–temperature interactions. Numerous studies have demonstrated that vegetation can reduce local temperatures through evapotranspiration and shading, but these effects are typically observed at fine spatial scales, such as neighborhood or land surface levels (Oke, 1982; Bowler et al., 2010). When data are aggregated to the level of entire cities and averaged annually, these localized cooling effects may be diluted or obscured.
+
+In addition, the effectiveness of vegetation in mitigating heat is context-dependent and influenced by factors such as vegetation structure, spatial configuration, and the surrounding built environment (Gill et al., 2007; Ziter et al., 2019). NDVI, as a generalized indicator of vegetation greenness, does not capture these functional characteristics. Therefore, the results of this study should not be interpreted as evidence that vegetation lacks cooling effects, but rather that such effects are not detectable at the spatial and temporal resolution of the dataset used here.
 
 
 # 9. Limitations
