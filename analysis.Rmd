@@ -30,34 +30,33 @@ To address these gaps, this study conducts a multi-city analysis across Chinese 
 
 **Research Question:**
 
-<<<<<<< HEAD
--   How does vegetation cover (NDVI) affect temperature across Chinese cities over time?
-
-**Sub-questions:**
-
--   How have NDVI and temperature changed over time?
--   Is higher vegetation associated with lower temperatures?
--   Does the relationship vary across regions?
--   How does temperature differ across vegetation levels?
--   Are changes in vegetation associated with changes in temperature?
-
-
 - Is vegetation coverage (NDVI) negatively associated with temperature across Chinese cities, as would be expected if vegetation has a cooling effect?
 
 **Sub-questions:**
+
 1. Do NDVI and temperature exhibit similar time trends over the study period (2000–2024)?
+
 2. What is the direction and strength of the association between NDVI and temperature across all city-year observations?
+
 3. Does the relationship between NDVI and temperature vary across regions in China?
+
 4. Do cities with higher NDVI levels have systematically lower temperature distributions?
+
 5. Are year-to-year changes in NDVI associated with corresponding changes in temperature within the same city?
+
 6. Do spatial patterns of NDVI and temperature overlap geographically across China?
 
 
 # 2. Hypotheses
+
 H1: NDVI and temperature both exhibit increasing trends over time.
+
 H2: NDVI is negatively associated with temperature across cities, consistent with the expected cooling effect of vegetation.
+
 H3: The strength and direction of the NDVI–temperature relationship vary across regions.
+
 H4: Cities with higher NDVI levels have lower temperature distributions.
+
 H5: Increases in NDVI within a city are associated with decreases in temperature over time.
 
 # 3. Data
