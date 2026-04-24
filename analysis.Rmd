@@ -17,6 +17,7 @@ library(lubridate)
 library(sf)
 library(here)
 library(ggplot2)
+
 ```
 
 # 1. Introduction
@@ -90,6 +91,174 @@ The resulting dataset forms the basis for all subsequent analysis.
 ```{r}
 # Data import and cleaning steps
 
+# check project root
+here()
+
+# create processed folder if it does not exist
+dir.create(here("data", "processed"), showWarnings = FALSE, recursive = TRUE)
+
+# 1. Read raw data
+
+temp_raw <- read.csv(
+  here("data", "raw", "clty level_temp_2000-2024.csv")
+)
+
+ndvi_raw <- read.csv(
+  here("data", "raw", "city level_ndvi_2000-2024.csv")
+)
+
+# 2. Define year columns
+
+year_cols <- as.character(2000:2024)
+
+# 3. Reshape temperature data to long format
+
+temp_long <- temp_raw %>%
+  clean_names_basic() %>%
+  pivot_longer(
+    cols = any_of(year_cols),
+    names_to = "year",
+    values_to = "temperature"
+  ) %>%
+  mutate(
+    year = as.integer(year),
+    temperature = as.numeric(temperature)
+  ) %>%
+  arrange(city_id, year)
+
+# 4. Reshape NDVI data to long format
+
+ndvi_long <- ndvi_raw %>%
+  clean_names_basic() %>%
+  pivot_longer(
+    cols = any_of(year_cols),
+    names_to = "year",
+    values_to = "ndvi"
+  ) %>%
+  mutate(
+    year = as.integer(year),
+    ndvi = as.numeric(ndvi)
+  ) %>%
+  arrange(city_id, year)
+
+
+# 5. Check duplicate city-year observations
+
+panel_check_temp <- temp_long %>%
+  count(city_id, year) %>%
+  filter(n > 1)
+
+panel_check_ndvi <- ndvi_long %>%
+  count(city_id, year) %>%
+  filter(n > 1)
+
+# 6. Merge temperature and NDVI
+
+processed_city_panel <- temp_long %>%
+  left_join(
+    ndvi_long,
+    by = c("city_id", "city", "pr_id", "province", "year")
+  ) %>%
+  mutate(
+    temp_anomaly = temperature - mean(temperature, na.rm = TRUE),
+    ndvi_z = as.numeric(scale(ndvi)),
+    temperature_z = as.numeric(scale(temperature))
+  ) %>%
+  select(
+    city_id, city, pr_id, province, year,
+    ndvi, temperature, ndvi_z, temperature_z, temp_anomaly
+  ) %>%
+  arrange(city_id, year)
+
+
+# 7. Summary before dropping missing values
+
+missing_summary_before <- processed_city_panel %>%
+  summarise(
+    n_rows = n(),
+    n_cities = n_distinct(city_id),
+    year_min = min(year, na.rm = TRUE),
+    year_max = max(year, na.rm = TRUE),
+    missing_ndvi = sum(is.na(ndvi)),
+    missing_temperature = sum(is.na(temperature))
+  )
+
+city_year_completeness_before <- processed_city_panel %>%
+  group_by(city_id, city) %>%
+  summarise(
+    n_years = n(),
+    missing_ndvi = sum(is.na(ndvi)),
+    missing_temperature = sum(is.na(temperature)),
+    .groups = "drop"
+  )
+
+
+# 8. Drop rows with missing values
+
+
+processed_city_panel_clean <- processed_city_panel %>%
+  drop_na(ndvi, temperature)
+
+
+# 9. Summary after dropping missing values
+
+
+missing_summary_after <- processed_city_panel_clean %>%
+  summarise(
+    n_rows = n(),
+    n_cities = n_distinct(city_id),
+    year_min = min(year, na.rm = TRUE),
+    year_max = max(year, na.rm = TRUE),
+    missing_ndvi = sum(is.na(ndvi)),
+    missing_temperature = sum(is.na(temperature))
+  )
+
+city_year_completeness_after <- processed_city_panel_clean %>%
+  group_by(city_id, city) %>%
+  summarise(
+    n_years = n(),
+    .groups = "drop"
+  )
+
+
+# 10. Export processed files
+
+write_csv(
+  processed_city_panel_clean,
+  here("data", "processed", "processed_city_ndvi_temp_clean.csv")
+)
+
+write_csv(
+  missing_summary_before,
+  here("data", "processed", "processed_city_ndvi_temp_summary_before_dropna.csv")
+)
+
+write_csv(
+  missing_summary_after,
+  here("data", "processed", "processed_city_ndvi_temp_summary_after_dropna.csv")
+)
+
+write_csv(
+  city_year_completeness_before,
+  here("data", "processed", "processed_city_ndvi_temp_completeness_before_dropna.csv")
+)
+
+write_csv(
+  city_year_completeness_after,
+  here("data", "processed", "processed_city_ndvi_temp_completeness_after_dropna.csv")
+)
+
+saveRDS(
+  processed_city_panel_clean,
+  here("data", "processed", "processed_city_ndvi_temp_clean.rds")
+)
+
+# 11. Print checks
+
+print(missing_summary_before)
+print(missing_summary_after)
+print(panel_check_temp)
+print(panel_check_ndvi)
 ```
 
 # 5. Exploratory Data Analysis
@@ -151,9 +320,7 @@ Textual Descriptions and Explanations
 
 
 # 7. Results and Interpretation
-This section presents the main empirical findings derived from the exploratory data analysis (Section 5) and statistical modeling (Section 6). The results combine descriptive statistics, temporal trend analysis, distributional examination, and regression-based inference to provide a comprehensive understanding of NDVI dynamics and their relationship with temperature across Chinese cities. 
-
-Overall, the analysis reveals three consistent patterns. First, both NDVI and temperature exhibit statistically significant upward trends over the period 2000–2024. Second, NDVI and temperature are positively associated, as supported by both correlation and regression results. Third, this relationship is not uniform across space, with substantial regional heterogeneity in both magnitude and direction. In addition, distributional and city-level analyses highlight considerable variability across observations, while year-to-year changes suggest that the NDVI–temperature relationship is more pronounced over long-term trends than short-term fluctuations. The following subsections present these findings in detail.
+This section presents the main empirical findings derived from the exploratory data analysis (Section 5) and statistical modeling (Section 6). The results combine descriptive statistics, temporal trend analysis, distributional examination, and regression-based inference to provide a comprehensive understanding of NDVI dynamics and their relationship with temperature across Chinese cities. Overall, the analysis reveals three consistent patterns. First, both NDVI and temperature exhibit statistically significant upward trends over the period 2000–2024. Second, NDVI and temperature are positively associated, as supported by both correlation and regression results. Third, this relationship is not uniform across space, with substantial regional heterogeneity in both magnitude and direction. In addition, distributional and city-level analyses highlight considerable variability across observations, while year-to-year changes suggest that the NDVI–temperature relationship is more pronounced over long-term trends than short-term fluctuations. The following subsections present these findings in detail.
 
 ## 7.1 Temporal Trends in NDVI and Temperature
 The temporal analysis indicates a clear upward trend in both NDVI and temperature across Chinese cities over the period 2000–2024. As illustrated in the annual average time series, mean NDVI increased steadily from approximately 0.44 in 2000 to above 0.51 by 2024, suggesting a gradual improvement in vegetation greenness over time. This pattern is further supported by the Mann–Kendall test, which identifies a statistically significant monotonic increase (z = 6.19, p < 0.001, τ = 0.887).
@@ -217,7 +384,6 @@ This spatial heterogeneity is consistent with previous studies showing that vege
 Urbanization may also contribute to these regional differences. Studies have shown that urban heat island effects can alter the relationship between vegetation and temperature, while vegetation distribution is shaped by land-use patterns and urban planning (Zhou et al., 2004). As a result, the observed NDVI–temperature relationship reflects a combination of climatic gradients, ecological processes, and human activities.
 
 ## 8.4 Higher NDVI Levels Are Associated with Higher Temperatures Due to Underlying Climatic Gradients
-
 The NDVI group analysis indicates that temperature increases systematically with higher vegetation levels. While this pattern may appear inconsistent with the widely documented cooling effects of vegetation, it is more plausibly explained by underlying climatic gradients rather than direct causal effects of vegetation on temperature.
 
 At large spatial scales, vegetation distribution is strongly constrained by climate, particularly temperature and water availability. Warmer and more humid regions tend to support higher vegetation productivity, while colder or arid regions exhibit lower NDVI values. As a result, NDVI and temperature often co-vary spatially due to shared environmental drivers. This interpretation is consistent with global-scale studies demonstrating that terrestrial vegetation activity is closely linked to climate variability, especially temperature and precipitation (Nemani et al., 2003).
