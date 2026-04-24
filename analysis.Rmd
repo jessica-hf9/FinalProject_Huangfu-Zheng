@@ -198,6 +198,8 @@ At the same time, several extreme observations are present, with large positive 
 
 
 # 8. Discussion
+This section interprets the empirical findings in relation to the central research question: How does vegetation cover (NDVI) affect temperature across Chinese cities over time? Building on the results from Section 5 and Section 6, the discussion examines whether vegetation is associated with cooling or warming effects at the city-year scale, and how this relationship varies across temporal, spatial, and analytical dimensions. In particular, the analysis addresses the key sub-questions by evaluating long-term trends, cross-sectional associations, regional heterogeneity, differences across vegetation levels, and short-term dynamics. By situating the empirical results within existing literature, this section aims to clarify the mechanisms underlying the observed NDVI–temperature relationship and to assess the extent to which aggregated patterns reflect underlying environmental processes.
+
 ## 8.1 NDVI and Temperature Have Increased Concurrently Across Chinese Cities
 The results show that both NDVI and temperature have increased significantly across Chinese cities from 2000 to 2024. This finding is consistent with two well-documented large-scale processes in China: climate warming and widespread vegetation greening. Previous studies have shown that China has experienced rapid warming over recent decades, particularly since the late 20th century (Piao et al., 2010). At the same time, satellite-based analyses indicate that China has contributed substantially to global vegetation greening(Zhu et al., 2016), driven by both climate change and large-scale ecological restoration programs (Chen et al., 2019).
 
