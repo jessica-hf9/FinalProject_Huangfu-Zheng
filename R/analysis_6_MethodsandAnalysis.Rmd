@@ -3,6 +3,7 @@ title: "analysis_6_MethodsandAnalysis"
 author: "Shiyi Zheng & Juanying Huangfu"
 date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
