@@ -30,6 +30,7 @@ To address these gaps, this study conducts a multi-city analysis across Chinese 
 
 **Research Question:**
 
+<<<<<<< HEAD
 -   How does vegetation cover (NDVI) affect temperature across Chinese cities over time?
 
 **Sub-questions:**
@@ -40,9 +41,24 @@ To address these gaps, this study conducts a multi-city analysis across Chinese 
 -   How does temperature differ across vegetation levels?
 -   Are changes in vegetation associated with changes in temperature?
 
-------------------------------------------------------------------------
+
+- Is vegetation coverage (NDVI) negatively associated with temperature across Chinese cities, as would be expected if vegetation has a cooling effect?
+
+**Sub-questions:**
+1. Do NDVI and temperature exhibit similar time trends over the study period (2000–2024)?
+2. What is the direction and strength of the association between NDVI and temperature across all city-year observations?
+3. Does the relationship between NDVI and temperature vary across regions in China?
+4. Do cities with higher NDVI levels have systematically lower temperature distributions?
+5. Are year-to-year changes in NDVI associated with corresponding changes in temperature within the same city?
+6. Do spatial patterns of NDVI and temperature overlap geographically across China?
+
 
 # 2. Hypotheses
+H1: NDVI and temperature both exhibit increasing trends over time.
+H2: NDVI is negatively associated with temperature across cities, consistent with the expected cooling effect of vegetation.
+H3: The strength and direction of the NDVI–temperature relationship vary across regions.
+H4: Cities with higher NDVI levels have lower temperature distributions.
+H5: Increases in NDVI within a city are associated with decreases in temperature over time.
 
 # 3. Data
 
@@ -72,7 +88,6 @@ Key variables include:
 -   Year
 -   Province
 
-------------------------------------------------------------------------
 
 # 4. Data Wrangling
 
@@ -1206,7 +1221,33 @@ In addition, the effectiveness of vegetation in mitigating heat is context-depen
 
 # 9. Limitations
 
-Textual Descriptions and Explanations
+# 9.1 Shared Time Trends  
+One important limitation is that both NDVI and temperature show strong upward trends over time. 
+This means that part of the positive relationship observed in the analysis may be driven by a shared time trend rather than a direct relationship between vegetation and temperature.
+
+Although the change analysis helps reduce this issue, it does not fully eliminate the influence of broader climate trends. As a result, the findings should be interpreted with caution.
+
+# 9.2 Spatial Confounding  
+Another key limitation is spatial confounding. Regions in southern China tend to have both higher NDVI and higher temperatures, while northern and northwestern regions tend to have lower values for both.
+
+This means that the positive relationship observed between NDVI and temperature may largely reflect underlying geographic and climatic differences rather than a causal effect of vegetation.
+
+# 9.3 Lack of Causal Identification  
+This study focuses on identifying associations rather than causal effects. While we observe a consistent positive relationship between NDVI and temperature, the analysis does not establish whether vegetation directly affects temperature.
+
+Both variables may be influenced by other factors, such as climate conditions, precipitation, or urban development. Without a more rigorous identification strategy, causal interpretation is not possible.
+
+# 9.4 Temporal Aggregation (Annual Data Limitation)  
+The analysis is based on annual average data, which limits the ability to capture short-term or seasonal dynamics. 
+Vegetation and temperature interactions may vary across seasons, especially during summer when vegetation cooling effects are expected to be strongest.
+
+Using annual data may mask these seasonal patterns and lead to an incomplete understanding of the relationship.
+
+# 9.5 Data Noise and Outliers  
+The change analysis reveals the presence of some extreme observations, where both NDVI and temperature change sharply from one year to the next. 
+These outliers may reflect measurement errors, data inconsistencies, or short-term shocks.
+
+While they do not affect the overall pattern, they may introduce additional noise into the results.
 
 # 10. Conclusion
 
