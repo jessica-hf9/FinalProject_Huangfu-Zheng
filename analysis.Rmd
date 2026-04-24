@@ -151,7 +151,52 @@ Textual Descriptions and Explanations
 
 
 # 7. Results and Interpretation
-Textual Descriptions and Explanations
+This section presents the main empirical findings derived from the exploratory data analysis (Section 5) and statistical modeling (Section 6). The results combine descriptive statistics, temporal trend analysis, distributional examination, and regression-based inference to provide a comprehensive understanding of NDVI dynamics and their relationship with temperature across Chinese cities. 
+
+Overall, the analysis reveals three consistent patterns. First, both NDVI and temperature exhibit statistically significant upward trends over the period 2000–2024. Second, NDVI and temperature are positively associated, as supported by both correlation and regression results. Third, this relationship is not uniform across space, with substantial regional heterogeneity in both magnitude and direction. In addition, distributional and city-level analyses highlight considerable variability across observations, while year-to-year changes suggest that the NDVI–temperature relationship is more pronounced over long-term trends than short-term fluctuations. The following subsections present these findings in detail.
+
+## 7.1 Temporal Trends in NDVI and Temperature
+The temporal analysis indicates a clear upward trend in both NDVI and temperature across Chinese cities over the period 2000–2024. As illustrated in the annual average time series, mean NDVI increased steadily from approximately 0.44 in 2000 to above 0.51 by 2024, suggesting a gradual improvement in vegetation greenness over time. This pattern is further supported by the Mann–Kendall test, which identifies a statistically significant monotonic increase (z = 6.19, p < 0.001, τ = 0.887).
+
+A similar upward trajectory is observed for temperature. Mean temperature rose from around 13.0 °C in the early 2000s to above 14.2 °C in recent years. Although the series exhibits short-term fluctuations, including a noticeable dip around 2010–2012, the overall increasing trend is statistically significant (z = 3.53, p < 0.001, τ = 0.507). Taken together, these results indicate that both vegetation activity and temperature have increased over the study period, with NDVI displaying a more consistent trend than temperature.
+
+## 7.2 Distributional Characteristics of NDVI and Temperature
+The distributional analysis provides additional insight into the variability of NDVI and temperature across all observations (n = 9,350). Summary statistics indicate that NDVI ranges from 0.060 to 0.829, with a mean of 0.478 and a median of 0.495. The interquartile range (0.388–0.610) suggests that most observations fall within moderate vegetation levels. The histogram and density plots show a multimodal distribution, with noticeable peaks around approximately 0.45–0.65, indicating heterogeneity in vegetation conditions across cities.
+
+Temperature exhibits a wider spread, ranging from −5.604 °C to 27.053 °C, with a mean of 13.486 °C and a median of 15.140 °C. The interquartile range (8.704–17.728 °C) indicates substantial variation across climatic conditions. The distribution is also multimodal, with a dominant peak around 15–18 °C and smaller peaks at lower temperature ranges, reflecting the diversity of climatic zones across China.
+
+Boxplot analysis further highlights differences in dispersion between the two variables. NDVI values are relatively tightly clustered, with most observations concentrated between approximately 0.38 and 0.61, and no strong evidence of extreme outliers. In contrast, temperature shows a wider spread and the presence of several lower-end outliers (below 0 °C), which are consistent with colder regions or seasonal variability captured in the dataset.
+
+## 7.3 City-Level Variation
+The dataset includes 369 cities, with a total of 9,350 observations. Most cities have complete time series coverage, with the number of years per city concentrated around 25 (median = 25, first quartile = 25, third quartile = 25), although the maximum reaches 50, indicating that a small number of cities may have duplicated or extended records.
+
+City-level trajectory plots reveal substantial heterogeneity in both NDVI and temperature. While the overall trend line shows a gradual increase, individual city trajectories vary widely in both level and slope. For NDVI, values across cities span approximately from 0.1 to above 0.8, with most cities clustering between 0.3 and 0.7. For temperature, city-level values range from near 0 °C to above 25 °C, reflecting strong spatial variation across regions.
+
+To better illustrate individual patterns, a subset of sampled cities is examined. These plots confirm that although most cities exhibit upward trends in both NDVI and temperature, the magnitude and variability differ significantly across locations. Some cities show relatively stable trajectories, while others display more pronounced fluctuations, highlighting localized dynamics.
+
+## 7.4 Relationship Between NDVI and Temperature
+The scatter plot analysis shows a clear positive association between NDVI and temperature across all observations. This relationship is statistically confirmed by the Pearson correlation test, which yields a correlation coefficient of 0.690 (95% confidence interval: 0.6797–0.7009, t = 92.284, df = 9348, p-value < 2.2 × 10⁻¹⁶). This indicates a moderately strong and highly significant positive correlation between vegetation greenness and temperature.
+
+The linear regression model further quantifies this relationship. The estimated coefficient for NDVI is 27.4477 (standard error = 0.2974, p-value < 2 × 10⁻¹⁶), indicating a strong positive association. The intercept is 0.3605 (p = 0.0168). The model explains approximately 47.67% of the variance in temperature (R² = 0.4767), suggesting that NDVI is an important but not exclusive determinant of temperature variation. The residual standard error is 4.834, indicating moderate unexplained variability.
+
+## 7.5 Regional Heterogeneity in the NDVI–Temperature Relationship
+The relationship between NDVI and temperature varies substantially across regions. Faceted scatter plots show that regions such as East China, North China, and Southwest China exhibit strong positive relationships, while the Northeast region shows a negative slope. Central China and South China display relatively weak or flat relationships.
+
+These differences are confirmed by the interaction regression model. The baseline NDVI coefficient is not statistically significant (coef = 0.6335, p = 0.5838), indicating that the overall relationship is not uniform when regional differences are accounted for. However, several interaction terms are highly significant. For example, NDVI has a strong positive effect in East China (coef = 11.4137, p < 2 × 10⁻¹⁶), North China (coef = 14.0949, p < 2 × 10⁻¹⁶), and especially Southwest China (coef = 39.6172, p < 2 × 10⁻¹⁶). In contrast, the effect is negative in the Northeast (coef = −11.1180, p = 1.42 × 10⁻⁹). The model achieves a high explanatory power (R² = 0.8174), indicating that regional variation plays a critical role in shaping the NDVI–temperature relationship.
+
+## 7.6 NDVI-Based Group Differences
+Grouping observations by NDVI levels reveals a clear monotonic relationship between vegetation and temperature. The boxplots show that median temperature increases progressively from the low NDVI group to the high NDVI group. The lowest NDVI group corresponds to the lowest temperature distribution, while the highest NDVI group exhibits the highest median temperature.
+
+Although there is variability within each group, the upward shift in both median and interquartile range across NDVI categories is consistent, reinforcing the positive association identified in the correlation and regression analyses.
+
+## 7.7 Year-to-Year Changes
+
+The analysis of first differences examines the relationship between annual changes in NDVI and temperature. The scatter plot shows a positive slope in the fitted linear trend, indicating that increases in NDVI are generally associated with increases in temperature at the year-to-year level. However, the data points are highly concentrated around zero, suggesting that most annual changes are relatively small.
+
+At the same time, several extreme observations are present, with large positive or negative changes in either variable. Overall, the relationship in first differences appears weaker and more dispersed compared to the level-based analysis, indicating that the NDVI–temperature association is more clearly observed over long-term trends rather than short-term fluctuations.
+
+
+
 
 # 8. Discussion
 Textual Descriptions and Explanations
