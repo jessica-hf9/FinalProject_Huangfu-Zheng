@@ -128,11 +128,58 @@ If vegetation has a cooling effect, we might expect higher NDVI to be associated
 
 This also highlights an important issue for the next step of the analysis: we need to separate the effect of vegetation from overall time trends, rather than relying only on simple correlations.
 
-## 6.2 Correlation and Linear Regression
-Textual Descriptions and Explanations
-```{r}
+## 6.2 Correlation and Linear Regression: Relationship Between NDVI and Temperature
 
+We next examine whether higher vegetation coverage is associated with lower temperature. 
+Following the logic of the course GLM exercises, we first visualize the relationship using a scatter plot and a fitted linear trend line. 
+We then use correlation analysis and a simple linear regression model to quantify the direction and strength of the association between NDVI and temperature.
+
+```{r}
+ndvi_temp <- data_clean %>%
+  select(city, year, ndvi, temperature) %>%
+  drop_na()
+
+glimpse(ndvi_temp)
+summary(ndvi_temp)
 ```
+
+```{r}
+# 1. Scatter plot with fitted linear trend
+ggplot(ndvi_temp, aes(x = ndvi, y = temperature)) +
+  geom_point(alpha = 0.3, size = 1.8) +
+  geom_smooth(method = "lm", se = TRUE, color = "black") +
+  labs(
+    title = "Temperature and NDVI Across Chinese Cities",
+    x = "NDVI",
+    y = "Temperature (°C)"
+  )
+```
+
+The scatter plot shows a clear positive relationship between NDVI and temperature. As NDVI increases, temperature also tends to increase, and the fitted regression line has a strong upward slope.
+
+This pattern is quite striking. Instead of seeing a cooling effect of vegetation, the plot suggests that cities with higher NDVI tend to have higher temperatures on average. The points are fairly spread out, but the overall upward trend is very consistent across the full range of NDVI values.
+
+```{r}
+# 2.Pearson correlation test
+cor_test_ndvi_temp <- cor.test(ndvi_temp$ndvi, ndvi_temp$temperature)
+cor_test_ndvi_temp
+```
+
+The Pearson correlation coefficient is about 0.69, which indicates a relatively strong positive relationship between NDVI and temperature. The p-value is extremely small (p < 0.001), meaning this relationship is statistically significant and very unlikely to be due to random chance.
+
+In practical terms, this means that NDVI and temperature tend to move together across observations. Cities and years with higher vegetation levels also tend to have higher temperatures.
+
+```{r}
+# 3.Simple linear regression
+ndvi_temp_lm <- lm(temperature ~ ndvi, data = ndvi_temp)
+summary(ndvi_temp_lm)
+```
+
+The regression results are consistent with the scatter plot and correlation test. The positive slope indicates that, on average, higher NDVI is associated with higher temperature.
+
+This result is quite different from what we might expect if vegetation had a simple cooling effect. Instead of a negative relationship, we observe a strong positive association. This suggests that the relationship between vegetation and temperature is more complex than a simple “more trees, lower temperature” story.
+
+
 
 ## 6.3 Regional Comparison
 Textual Descriptions and Explanations
