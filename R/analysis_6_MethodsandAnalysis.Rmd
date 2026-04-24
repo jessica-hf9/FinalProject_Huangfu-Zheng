@@ -309,10 +309,51 @@ In colder regions, such as the Northeast, the relationship appears closer to wha
 This suggests that the simple relationship between NDVI and temperature cannot be interpreted in isolation. Instead, it is strongly influenced by broader environmental conditions. This also reinforces the idea from the previous section that we need to be careful when interpreting the NDVI–temperature relationship, as it may be driven by shared geographic and climatic factors rather than a direct causal effect.
 
 ## 6.4 Distribution Analysis
-Textual Descriptions and Explanations
-```{r}
 
+We further examine how temperature varies across different levels of vegetation coverage. 
+NDVI values are grouped into quartiles, and temperature distributions are compared across these groups using boxplots. 
+This approach allows us to assess whether cities with higher vegetation consistently experience lower temperatures.
+
+```{r}
+# 1. grouping by NDVI
+ndvi_grouped <- data_clean %>%
+  mutate(
+    ndvi_group = ntile(ndvi, 4)  # 分成4组（quartiles）
+  )
+
+ndvi_grouped <- ndvi_grouped %>%
+  mutate(
+    ndvi_group = factor(
+      ndvi_group,
+      levels = c(1, 2, 3, 4),
+      labels = c("Low NDVI", "Lower-Mid NDVI", "Upper-Mid NDVI", "High NDVI")
+    )
+  )
 ```
+
+```{r}
+# 2.boxplot
+ggplot(ndvi_grouped, aes(x = ndvi_group, y = temperature)) +
+  geom_boxplot(outlier.alpha = 0.2) +
+  geom_jitter(alpha = 0.1, width = 0.2) +
+  labs(
+    title = "Temperature Distribution Across NDVI Levels",
+    x = "NDVI Group",
+    y = "Temperature (°C)"
+  )
+```
+The boxplots show a clear upward shift in temperature as NDVI increases.
+
+From the low NDVI group to the high NDVI group, both the median temperature and the overall distribution move higher. In particular, the median temperature increases steadily across the four groups, and the upper range of temperature is also noticeably higher in the high NDVI group.
+
+This pattern is quite consistent across the data. Even though there is still variation within each group, the overall trend is very clear: cities with higher NDVI tend to have higher temperatures rather than lower ones.
+
+This result reinforces what we observed in the previous analyses. Instead of finding evidence that higher vegetation leads to cooler temperatures, we again see a strong positive association between NDVI and temperature.
+
+One important point is that this pattern is likely driven by broader geographic and climatic differences. Regions with warmer climates, such as southern China, tend to have both higher vegetation and higher temperatures. As a result, the increase in temperature across NDVI groups may reflect these underlying conditions rather than a direct effect of vegetation itself.
+
+Overall, this distribution-based analysis provides a consistent picture with the earlier regression results and highlights that the relationship between NDVI and temperature is not simply a cooling effect, but is closely linked to regional and climatic context.
+
 
 ## 6.5 Change Analysis
 Textual Descriptions and Explanations
