@@ -201,7 +201,99 @@ The density curve indicates a multimodal pattern, with additional smaller peaks 
 Overall, the distribution shows greater variability and dispersion than NDVI, with a wider range and more pronounced variation across observations.
 
 ## 5.3 City-Level Variation
-Textual Descriptions and Explanations
-```{r}
+While the previous sections examine overall temporal trends and the distribution of key variables, these aggregated perspectives may mask important differences across cities. To better understand the extent of heterogeneity, this section explores city-level variation in NDVI and temperature over time. By visualizing individual city trajectories, the analysis aims to assess whether observed aggregate patterns are consistent across cities or driven by a subset of observations.
 
+```{r}
+# 1. Check number of cities and observations per city
+processed_city_ndvi_temp_clean %>%
+  summarise(
+    total_cities = n_distinct(city),
+    total_obs = n()
+  )
+
+processed_city_ndvi_temp_clean %>%
+  group_by(city) %>%
+  summarise(n_years = n()) %>%
+  summary()
 ```
+The dataset includes observations from 369 distinct cities. At the city level, most cities have 25 years of data, as indicated by the minimum, first quartile, and median values of 25 years. This suggests that the majority of cities are consistently observed throughout the study period from 2000 to 2024.
+
+The mean number of observations per city is slightly higher (25.34), and the maximum reaches 50, indicating that a small number of cities have more frequent observations than others. Overall, the dataset is largely balanced across cities, with only limited variation in the number of observations per city.
+
+```{r}
+# 2. Overall trajectory across cities 
+
+# NDVI trajectories across cities 
+ggplot(processed_city_ndvi_temp_clean,
+       aes(x = year, y = ndvi, group = city)) +
+  geom_line(alpha = 0.1, color = "darkgreen") +
+  geom_smooth(aes(group = 1), method = "loess",
+              color = "black", linewidth = 1.2) +
+  labs(
+    title = "City-Level NDVI Trajectories (2000–2024)",
+    x = "Year",
+    y = "NDVI"
+  ) +
+  theme_minimal()
+
+# Temperature trajectories across cities
+ggplot(processed_city_ndvi_temp_clean,
+       aes(x = year, y = temperature, group = city)) +
+  geom_line(alpha = 0.1, color = "darkred") +
+  geom_smooth(aes(group = 1), method = "loess",
+              color = "black", linewidth = 1.2) +
+  labs(
+    title = "City-Level Temperature Trajectories (2000–2024)",
+    x = "Year",
+    y = "Temperature (°C)"
+  ) +
+  theme_minimal()
+```
+The city-level trajectories reveal substantial heterogeneity across cities for both NDVI and temperature. Individual city trends, shown by the semi-transparent lines, vary widely in both level and variation over time.
+
+For NDVI, although the overall smoothed trend indicates a gradual increase, individual cities exhibit different starting points and trajectories. Some cities consistently maintain higher NDVI levels, while others remain at lower levels throughout the period. This variation suggests that the increase observed in the aggregate trend is not uniform across all cities.
+
+A similar pattern is observed for temperature. While the overall trend shows a gradual increase, individual city trajectories display considerable dispersion, with noticeable differences in both baseline temperature levels and year-to-year variability.
+
+Overall, these results indicate that aggregate trends may mask substantial differences across cities. The observed heterogeneity highlights the importance of examining city-level variation rather than relying solely on averaged patterns.
+
+```{r}
+# 3. Sampling city avoid over plotting
+set.seed(123)
+
+sample_cities <- processed_city_ndvi_temp_clean %>%
+  distinct(city) %>%
+  sample_n(12)
+
+sample_data <- processed_city_ndvi_temp_clean %>%
+  filter(city %in% sample_cities$city)
+
+# Sampled NDVI
+ggplot(sample_data, aes(x = year, y = ndvi, color = city)) +
+  geom_line() +
+  labs(
+    title = "NDVI Trends for Sampled Cities",
+    x = "Year",
+    y = "NDVI"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+# Sampled Temperature
+ggplot(sample_data, aes(x = year, y = temperature, color = city)) +
+  geom_line() +
+  labs(
+    title = "Temperature Trends for Sampled Cities",
+    x = "Year",
+    y = "Temperature (°C)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+To further examine city-level variation, a subset of cities is selected for detailed visualization. Compared to the aggregated view, these plots make individual trajectories more clearly observable.
+
+For NDVI, all sampled cities show a generally increasing trend over time, but the levels and rates of increase differ. Some cities start at higher NDVI levels and maintain relatively high values throughout the period, while others remain at lower levels despite gradual increases. This indicates that although the overall upward trend is consistent, the magnitude and baseline of vegetation coverage vary across cities.
+
+For temperature, a similar pattern of heterogeneity is observed. All sampled cities exhibit relatively stable or gradually increasing trends, but there are clear differences in baseline temperature levels. Some cities consistently experience higher temperatures, while others remain at lower levels, with relatively parallel trajectories over time.
+
+Overall, these plots reinforce that while general trends exist, substantial differences across cities persist in both NDVI and temperature.
