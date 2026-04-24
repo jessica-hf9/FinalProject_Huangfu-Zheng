@@ -1,5 +1,5 @@
 ---
-title: "Does Urban Vegetation Mitigate High Temperatures Across Cities?"
+title: "Vegetation and Temperature Across Chinese Cities: A City-Year Analysis of NDVI and Heat Patterns"
 author: "Shiyi Zheng & Juanying Huangfu"
 date: "`r Sys.Date()`"
 output: 
@@ -20,11 +20,15 @@ library(ggplot2)
 library(trend)
 ```
 
+**Project Repository: **
+
+The full project repository, including data organization, R scripts, analysis files, and version history, is available on GitHub: https://github.com/jessica-hf9/FinalProject_Huangfu-Zheng
+
 # 1. Introduction
 
 China’s rapid urbanization over the past decades has significantly intensified the Urban Heat Island effect (UHI), leading to rising urban temperatures and increasing concerns over heat-related health risks, energy demand, and long-term urban sustainability. Empirical studies have shown that urban areas in China have experienced faster warming trends compared to surrounding rural regions, largely driven by land-use change and the expansion of impervious surfaces (Zhou et al., 2014). Urban vegetation, commonly measured using the Normalized Difference Vegetation Index (NDVI), has been widely recognized as an effective nature-based solution to mitigate urban heat. Vegetation can reduce surface and air temperatures through mechanisms such as shading and evapotranspiration, thereby improving thermal comfort and reducing heat exposure (Bowler et al., 2010). Remote sensing studies using NDVI have also found negative associations between vegetation cover and land surface temperature across urban environments (Peng et al., 2011).
 
-However, despite this well-established relationship, the extent to which vegetation mitigates temperature across Chinese cities over time remains insufficiently quantified. Most existing studies focus on single cities or short time periods, limiting the ability to capture long-term dynamics and cross-city variability. Moreover, regional heterogeneity—such as differences in climate zones, urban form, and baseline vegetation coverage—may lead to substantial variation in the strength and direction of the NDVI–temperature relationship(Zhao et al., 2014).
+However, despite this well-established relationship, the extent to which vegetation mitigates temperature across Chinese cities over time remains insufficiently quantified. Most existing studies focus on single cities or short time periods, limiting the ability to capture long-term dynamics and cross-city variability. Moreover, regional heterogeneity—such as differences in climate zones, urban form, and baseline vegetation coverage—may lead to substantial variation in the strength and direction of the NDVI–temperature relationship (Zhao et al., 2014).
 
 To address these gaps, this study conducts a multi-city analysis across Chinese prefecture-level cities from 2000 to 2024, integrating NDVI and temperature data to evaluate whether vegetation coverage is negatively associated with temperature, as would be expected if vegetation exerts a cooling effect. The analysis examines (1) long-term trends in NDVI and temperature, (2) the overall relationship between vegetation and temperature across cities, (3) regional variation in this relationship, (4) differences in temperature across vegetation levels, (5) whether within-city changes in NDVI are associated with changes in temperature over time, and (6) the spatial distribution of NDVI and temperature patterns across China. By combining time series analysis, regression approaches, and spatial visualization, this study aims to provide a systematic assessment of the NDVI–temperature relationship and to clarify the extent to which aggregated patterns reflect underlying environmental processes.
 
@@ -499,7 +503,7 @@ data_clean %>%
 
 The dataset includes observations from 369 distinct cities. At the city level, most cities have 25 years of data, as indicated by the minimum, first quartile, and median values of 25 years. This suggests that the majority of cities are consistently observed throughout the study period from 2000 to 2024.
 
-The mean number of observations per city is slightly higher (25.34), and the maximum reaches 50, indicating that a small number of cities have more frequent observations than others. Overall, the dataset is largely balanced across cities, with only limited variation in the number of observations per city.
+The mean number of observations per city is slightly higher (25.34), and the maximum reaches 50, suggesting that a small number of city names may appear more than once in the dataset, likely due to duplicate names or administrative coding differences. This does not affect the main city-year analysis because city identifiers are retained in the processed dataset. Overall, the dataset is largely balanced across cities, with only limited variation in the number of observations per city.
 
 ```{r}
 # 2. Overall trajectory across cities 
@@ -533,9 +537,9 @@ ggplot(data_clean,
 
 The city-level trajectories reveal substantial heterogeneity across cities for both NDVI and temperature. Individual city trends, shown by the semi-transparent lines, vary widely in both level and variation over time.
 
-The city-level NDVI trajectories show clear variation across cities. From the figure, most NDVI values appear to fall roughly between 0.2 and 0.8, while the smoothed trend line gradually increases from about 0.44 in 2000 to above 0.50 by 2024.Although the aggregate smoothed trend is upward, the individual city lines are spread across different NDVI levels. This suggests that average vegetation conditions differ across cities and that the overall trend does not fully represent every city’s trajectory.
+The city-level NDVI trajectories show clear variation across cities. From the figure, most NDVI values appear to fall roughly between 0.2 and 0.8, while the smoothed trend line gradually increases from about 0.44 in 2000 to above 0.50 by 2024. Although the aggregate smoothed trend is upward, the individual city lines are spread across different NDVI levels. This suggests that average vegetation conditions differ across cities and that the overall trend does not fully represent every city’s trajectory.
 
-The city-level temperature trajectories show wider vertical dispersion than NDVI. From the figure, temperature values range broadly from below 0°C to above 20°C for many city-year observations. The smoothed trend line increases gradually over time, especially after the early 2010s.The spread of individual lines indicates that cities differ substantially in their temperature levels. Therefore, the average warming pattern should be interpreted as an overall tendency rather than a uniform trend across all cities.
+The city-level temperature trajectories show wider vertical dispersion than NDVI. From the figure, temperature values range broadly from below 0°C to above 20°C for many city-year observations. The smoothed trend line increases gradually over time, especially after the early 2010s. The spread of individual lines indicates that cities differ substantially in their temperature levels. Therefore, the average warming pattern should be interpreted as an overall tendency rather than a uniform trend across all cities.
 
 Overall, these results indicate that aggregate trends may mask substantial differences across cities. The observed heterogeneity highlights the importance of examining city-level variation rather than relying solely on averaged patterns.
 
@@ -690,7 +694,7 @@ cor_test_ndvi_temp
 ```
 
 The Pearson correlation coefficient is about 0.69, which indicates a relatively strong positive relationship between NDVI and temperature.
-The p-value is extremely small (p \< 0.001), meaning this relationship is statistically significant and very unlikely to be due to random chance.
+The p-value is extremely small (p < 0.001), meaning this relationship is statistically significant and very unlikely to be due to random chance.
 
 In practical terms, this means that NDVI and temperature tend to move together across observations.
 Cities and years with higher vegetation levels also tend to have higher temperatures.
@@ -900,7 +904,7 @@ Overall, this distribution-based analysis provides a consistent picture with the
 
 ## 6.5 Change Analysis
 
-First-difference analysis is used to reduce the influence of time-invariant city characteristics and shared long-term trends.
+First-difference analysis is used to focus on within-city year-to-year changes and reduce the influence of time-invariant city characteristics.
 
 To better capture dynamic relationships, we analyze year-to-year changes in NDVI and temperature. First differences are calculated for both variables, and the relationship between changes in vegetation and changes in temperature is examined.
 This analysis provides additional insight into whether increases or decreases in vegetation are associated with corresponding changes in temperature over time.
@@ -952,7 +956,7 @@ change_cor_test
 ```
 
 The correlation coefficient is about 0.56, indicating a moderate positive relationship between changes in NDVI and changes in temperature.
-The p-value is extremely small (p \< 0.001), which means this relationship is statistically significant.
+The p-value is extremely small (p < 0.001), which means this relationship is statistically significant.
 
 Compared to the earlier level-based analysis, the correlation here is weaker but still clearly positive.
 This suggests that even after focusing only on within-city changes, NDVI and temperature still tend to move in the same direction.
@@ -1096,7 +1100,7 @@ This section interprets the empirical findings in relation to the central resear
 
 ## 8.1 NDVI and Temperature Have Increased Concurrently Across Chinese Cities
 
-The results show that both NDVI and temperature have increased significantly across Chinese cities from 2000 to 2024. This finding is consistent with two well-documented large-scale processes in China: climate warming and widespread vegetation greening. Previous studies have shown that China has experienced rapid warming over recent decades, particularly since the late 20th century (Piao et al., 2010). At the same time, satellite-based analyses indicate that China has contributed substantially to global vegetation greening(Zhu et al., 2016), driven by both climate change and large-scale ecological restoration programs (Chen et al., 2019).
+The results show that both NDVI and temperature have increased significantly across Chinese cities from 2000 to 2024. This finding is consistent with two well-documented large-scale processes in China: climate warming and widespread vegetation greening. Previous studies have shown that China has experienced rapid warming over recent decades, particularly since the late 20th century (Piao et al., 2010). At the same time, satellite-based analyses indicate that China has contributed substantially to global vegetation greening (Zhu et al., 2016), driven by both climate change and large-scale ecological restoration programs (Chen et al., 2019).
 
 The simultaneous increase in NDVI and temperature observed in this study therefore reflects broader coupled dynamics rather than independent trends. Rising temperatures may enhance vegetation growth by extending growing seasons and increasing photosynthetic activity in some regions (Piao et al., 2006), while policy-driven afforestation and land management programs have further amplified vegetation expansion (Liu et al., 2008). These processes together explain why NDVI and temperature increase in parallel over time.
 
@@ -1217,10 +1221,3 @@ Zhou, L., Dickinson, R. E., Tian, Y., Fang, J., Li, Q., Kaufmann, R. K., Tucker,
 Zhu, Z., Piao, S., Myneni, R. B., Huang, M., Zeng, Z., Canadell, J. G., Ciais, P., Sitch, S., Friedlingstein, P., Arneth, A., Cao, C., Cheng, L., Kato, E., Koven, C., Li, Y., Lian, X., Liu, Y., Liu, R., Mao, J., & Pan, Y. (2016). Greening of the Earth and its drivers. Nature Climate Change, 6(8), 791–795. https://doi.org/10.1038/nclimate3004
 
 Ziter, C. D., Pedersen, E. J., Kucharik, C. J., & Turner, M. G. (2019). Scale-dependent interactions between tree canopy cover and impervious surfaces reduce daytime urban heat during summer. Proceedings of the National Academy of Sciences, 116(15), 7575–7580. https://doi.org/10.1073/pnas.1817561116
-
-
-# 12. Appendix
-
-```{r eval=FALSE, include=FALSE}
-
-```
