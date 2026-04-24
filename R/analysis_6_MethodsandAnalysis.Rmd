@@ -2,7 +2,9 @@
 title: "analysis_6_MethodsandAnalysis"
 author: "Shiyi Zheng & Juanying Huangfu"
 date: "`r Sys.Date()`"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -342,6 +344,7 @@ ggplot(ndvi_grouped, aes(x = ndvi_group, y = temperature)) +
     y = "Temperature (°C)"
   )
 ```
+
 The boxplots show a clear upward shift in temperature as NDVI increases.
 
 From the low NDVI group to the high NDVI group, both the median temperature and the overall distribution move higher. In particular, the median temperature increases steadily across the four groups, and the upper range of temperature is also noticeably higher in the high NDVI group.
@@ -387,6 +390,7 @@ ggplot(change_data, aes(x = d_ndvi, y = d_temperature)) +
     y = "Change in Temperature (°C)"
   )
 ```
+
 The scatter plot shows the relationship between year-to-year changes in NDVI and temperature within the same city. Compared to the earlier scatter plot, the points are now much more concentrated around zero, which makes sense because most year-to-year changes are relatively small.
 
 Despite this, there is still a clear upward trend. When NDVI increases in a given year, temperature also tends to increase in that same year. The fitted line has a positive slope, and this pattern appears consistently across the data.
@@ -398,6 +402,7 @@ At the same time, the plot also shows some extreme observations, where both NDVI
 change_cor_test <- cor.test(change_data$d_ndvi, change_data$d_temperature)
 change_cor_test
 ```
+
 The correlation coefficient is about 0.56, indicating a moderate positive relationship between changes in NDVI and changes in temperature. The p-value is extremely small (p < 0.001), which means this relationship is statistically significant.
 
 Compared to the earlier level-based analysis, the correlation here is weaker but still clearly positive. This suggests that even after focusing only on within-city changes, NDVI and temperature still tend to move in the same direction.
@@ -407,6 +412,7 @@ Compared to the earlier level-based analysis, the correlation here is weaker but
 change_lm <- lm(d_temperature ~ d_ndvi, data = change_data)
 summary(change_lm)
 ```
+
 The regression results confirm this pattern. The coefficient on the change in NDVI is positive and highly significant, indicating that increases in NDVI are associated with increases in temperature within the same city over time.
 
 In practical terms, the coefficient suggests that a one-unit increase in NDVI is associated with a large increase in temperature. While the magnitude should be interpreted carefully, the direction of the relationship is very clear.
@@ -462,6 +468,7 @@ ggplot(china_map_2024) +
   ) +
   theme_void()
 ```
+
 The NDVI map shows a clear spatial gradient across China. Higher NDVI values are concentrated in southern and southeastern regions, especially in South China and parts of Southwest China. These areas appear consistently darker on the map, indicating denser vegetation.
 
 In contrast, northern and northwestern regions exhibit much lower NDVI levels. Areas in Northwest China and parts of North China are visibly lighter, suggesting sparse vegetation coverage. This pattern aligns well with known climatic and geographic differences, where southern China has more favorable conditions for vegetation growth, while arid and semi-arid regions in the northwest have limited vegetation.
@@ -476,6 +483,7 @@ ggplot(china_map_2024) +
   ) +
   theme_void()
 ```
+
 The temperature map reveals a spatial pattern that closely mirrors the NDVI distribution. Warmer temperatures are concentrated in southern regions, particularly in South China, where average temperatures are the highest.
 
 In contrast, northern and northeastern regions are much cooler, with noticeably lower temperature values. The Northwest also shows relatively low temperatures compared to the south.
@@ -495,6 +503,7 @@ region_summary_2024 <- map_data_2024 %>%
 
 region_summary_2024
 ```
+
 The regional summary statistics further support the spatial patterns observed in the maps.
 
 South China has the highest average NDVI (0.67) and also the highest average temperature (23.48°C), making it both the greenest and warmest region. Similarly, East China and Central China show relatively high NDVI levels and relatively high temperatures.
