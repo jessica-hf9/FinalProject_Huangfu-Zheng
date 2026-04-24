@@ -563,51 +563,546 @@ Overall, these plots reinforce that while general trends exist, substantial diff
 
 ## 6.1 Time Series Analysis
 
-Textual Descriptions and Explanations
+This section examines long-term trends in NDVI and temperature over time.
+Following the logic of the course time series exercises, we first aggregate the panel data to yearly averages, then use line plots and smoothed trend lines to visualize temporal patterns.
+Because our dataset is annual rather than monthly or daily, the main focus here is long-term trend detection rather than seasonal decomposition.
 
 ```{r}
+data_clean <- read.csv(
+  here("data", "processed", "processed_city_ndvi_temp_clean.csv"),
+  stringsAsFactors = FALSE
+)
 
+# Aggregate city-year panel data to annual mean values across all cities
+annual_summary <- data_clean %>%
+  group_by(year) %>%
+  summarise(
+    mean_ndvi = mean(ndvi, na.rm = TRUE),
+    mean_temperature = mean(temperature, na.rm = TRUE),
+    sd_ndvi = sd(ndvi, na.rm = TRUE),
+    sd_temperature = sd(temperature, na.rm = TRUE),
+    n_cities = n_distinct(city),
+    .groups = "drop"
+  )
+
+annual_summary
 ```
 
-## 6.2 Correlation and Linear Regression
-
-Textual Descriptions and Explanations
+The aggregated dataset summarizes the average vegetation and temperature conditions across Chinese prefecture-level cities for each year from 2000 to 2024.
 
 ```{r}
+# 1. Smoothed trend plots
+# NDVI Trend Over Time
+ggplot(annual_summary, aes(x = year, y = mean_ndvi)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 2) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1) +
+  labs(
+    title = "Average NDVI Across Chinese Cities, 2000–2024",
+    x = "Year",
+    y = "Mean NDVI"
+  )
 
+# Temperature Trend Over Time
+ggplot(annual_summary, aes(x = year, y = mean_temperature)) +
+  geom_line(linewidth = 0.8) +
+  geom_point(size = 2) +
+  geom_smooth(method = "loess", se = TRUE, linewidth = 1) +
+  labs(
+    title = "Average Temperature Across Chinese Cities, 2000–2024",
+    x = "Year",
+    y = "Mean Temperature (°C)"
+  )
 ```
+
+The time series plots show a clear upward trend in both NDVI and temperature from 2000 to 2024, but the patterns are not identical.
+
+NDVI increases quite steadily over time.
+There are small fluctuations in the early 2000s, but after around 2010 the increase becomes more consistent, and the overall trend is very smooth.
+This suggests that vegetation coverage in Chinese cities has been gradually improving over the past two decades.
+
+Temperature also shows an overall increasing trend, but the pattern is more variable.
+There is a noticeable dip around 2010–2012, followed by a steady increase afterward.
+Compared to NDVI, temperature changes are less smooth and show more short-term fluctuations, which is expected given the influence of climate variability.
+
+```{r}
+# 2. Time series object representation
+# Create annual time series objects
+ndvi_ts <- ts(
+  annual_summary$mean_ndvi,
+  start = min(annual_summary$year),
+  frequency = 1
+)
+
+temp_ts <- ts(
+  annual_summary$mean_temperature,
+  start = min(annual_summary$year),
+  frequency = 1
+)
+
+# Plot time series objects
+plot(
+  ndvi_ts,
+  main = "NDVI Time Series (Annual Average)",
+  xlab = "Year",
+  ylab = "Mean NDVI"
+)
+
+plot(
+  temp_ts,
+  main = "Temperature Time Series (Annual Average)",
+  xlab = "Year",
+  ylab = "Mean Temperature (°C)"
+)
+```
+
+These time series plots show the same patterns in a more direct way, without smoothing.
+The upward trends in both NDVI and temperature are clearly visible, although year-to-year variation is more noticeable compared to the smoothed plots.
+
+```{r}
+# 3. Mann-Kendall Trend Tests
+ndvi_mk <- mk.test(ndvi_ts)
+temp_mk <- mk.test(temp_ts)
+
+ndvi_mk
+temp_mk
+```
+
+The Mann-Kendall test results support what we observe in the plots.
+NDVI shows a very strong and statistically significant increasing trend (z = 6.19, p \< 0.001, τ = 0.89), indicating that the upward trend is highly consistent over time.
+
+Temperature also shows a statistically significant increasing trend (z = 3.53, p \< 0.001, τ = 0.51), although the strength of the trend is more moderate compared to NDVI.
+
+One important takeaway is that both vegetation and temperature are increasing at the same time.
+This is directly relevant to our research question.
+
+If vegetation has a cooling effect, we might expect higher NDVI to be associated with lower temperatures.
+However, the fact that both variables increase over time suggests that there may be broader factors, such as climate change, driving temperature upward.
+
+This also highlights an important issue for the next step of the analysis: we need to separate the effect of vegetation from overall time trends, rather than relying only on simple correlations.
+
+## 6.2 Correlation and Linear Regression: Relationship Between NDVI and Temperature
+
+We next examine whether higher vegetation coverage is associated with lower temperature.
+Following the logic of the course GLM exercises, we first visualize the relationship using a scatter plot and a fitted linear trend line.
+We then use correlation analysis and a simple linear regression model to quantify the direction and strength of the association between NDVI and temperature.
+
+```{r}
+ndvi_temp <- data_clean %>%
+  select(city, year, ndvi, temperature) %>%
+  drop_na()
+
+glimpse(ndvi_temp)
+summary(ndvi_temp)
+```
+
+```{r}
+# 1. Scatter plot with fitted linear trend
+ggplot(ndvi_temp, aes(x = ndvi, y = temperature)) +
+  geom_point(alpha = 0.3, size = 1.8) +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(
+    title = "Temperature and NDVI Across Chinese Cities",
+    x = "NDVI",
+    y = "Temperature (°C)"
+  )
+```
+
+The scatter plot shows a clear positive relationship between NDVI and temperature.
+As NDVI increases, temperature also tends to increase, and the fitted regression line has a strong upward slope.
+
+This pattern is quite striking.
+Instead of seeing a cooling effect of vegetation, the plot suggests that cities with higher NDVI tend to have higher temperatures on average.
+The points are fairly spread out, but the overall upward trend is very consistent across the full range of NDVI values.
+
+```{r}
+# 2.Pearson correlation test
+cor_test_ndvi_temp <- cor.test(ndvi_temp$ndvi, ndvi_temp$temperature)
+cor_test_ndvi_temp
+```
+
+The Pearson correlation coefficient is about 0.69, which indicates a relatively strong positive relationship between NDVI and temperature.
+The p-value is extremely small (p \< 0.001), meaning this relationship is statistically significant and very unlikely to be due to random chance.
+
+In practical terms, this means that NDVI and temperature tend to move together across observations.
+Cities and years with higher vegetation levels also tend to have higher temperatures.
+
+```{r}
+# 3.Simple linear regression
+ndvi_temp_lm <- lm(temperature ~ ndvi, data = ndvi_temp)
+summary(ndvi_temp_lm)
+```
+
+The regression results are consistent with the scatter plot and correlation test.
+The positive slope indicates that, on average, higher NDVI is associated with higher temperature.
+
+This result is quite different from what we might expect if vegetation had a simple cooling effect.
+Instead of a negative relationship, we observe a strong positive association.
+This suggests that the relationship between vegetation and temperature is more complex than a simple “more trees, lower temperature” story.
 
 ## 6.3 Regional Comparison
 
-Textual Descriptions and Explanations
+In this section, we explore whether the relationship between NDVI and temperature differs across regions in China.
+To do this, we classify cities into major geographic regions (e.g., North China, East China, South China) based on their province and then compare patterns across these groups.
 
 ```{r}
+# 1.  create region classification based on province
+data_clean <- data_clean %>%
+  mutate(
+    region = case_when(
+      # North China
+      province %in% c(
+        "Beijing Municipality",
+        "Tianjin Municipality",
+        "Hebei Province",
+        "Shanxi Province",
+        "Inner Mongolia Autonomous Region"
+      ) ~ "North China",
 
+      # East China
+      province %in% c(
+        "Shanghai Municipality",
+        "Jiangsu Province",
+        "Zhejiang Province",
+        "Anhui Province",
+        "Fujian Province",
+        "Jiangxi Province",
+        "Shandong Province",
+        "Taiwan Province"
+      ) ~ "East China",
+
+      # Central China
+      province %in% c(
+        "Henan Province",
+        "Hubei Province",
+        "Hunan Province"
+      ) ~ "Central China",
+
+      # South China
+      province %in% c(
+        "Guangdong Province",
+        "Guangxi Zhuang Autonomous Region",
+        "Hainan Province",
+        "Hong Kong SAR",
+        "Macau SAR"
+      ) ~ "South China",
+
+      # Southwest
+      province %in% c(
+        "Chongqing Municipality",
+        "Sichuan Province",
+        "Guizhou Province",
+        "Yunnan Province",
+        "Tibet Autonomous Region"
+      ) ~ "Southwest",
+
+      # Northwest
+      province %in% c(
+        "Shaanxi Province",
+        "Gansu Province",
+        "Qinghai Province",
+        "Ningxia Hui Autonomous Region",
+        "Xinjiang Uygur Autonomous Region"
+      ) ~ "Northwest",
+
+      # Northeast
+      province %in% c(
+        "Liaoning Province",
+        "Jilin Province",
+        "Heilongjiang Province"
+      ) ~ "Northeast",
+
+      TRUE ~ "Other"
+    )
+  )
+table(data_clean$region)
 ```
+
+```{r}
+# 2. scatter plot by region
+ggplot(data_clean, aes(x = ndvi, y = temperature)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  facet_wrap(~ region) +
+  labs(
+    title = "NDVI and Temperature by Region",
+    x = "NDVI",
+    y = "Temperature (°C)"
+  )
+```
+
+The relationship between NDVI and temperature clearly differs across regions, and the patterns are not uniform.
+
+In East China, North China, and Southwest China, the relationship is strongly positive.
+In these regions, higher NDVI is consistently associated with higher temperature, and the slope is quite steep.
+This is especially clear in Southwest China, where the trend line increases sharply as NDVI increases.
+
+In contrast, the Northeast shows a different pattern.
+The relationship there is slightly negative, suggesting that higher NDVI may be associated with lower temperature in that region.
+This is the only region where the pattern looks closer to the expected “cooling effect” of vegetation.
+
+Other regions, such as Northwest and Central China, show weaker or more mixed patterns.
+The points are more scattered, and the slope is flatter, suggesting that the relationship is less stable.
+
+Overall, the figure suggests that the NDVI–temperature relationship is highly region-dependent, rather than following a single national pattern.
+
+```{r}
+# 3. interaction regression
+region_lm <- lm(temperature ~ ndvi * region, data = data_clean)
+summary(region_lm)
+```
+
+The regression results confirm what we see in the plots.
+The interaction terms between NDVI and region are mostly significant, which means the slope of NDVI is different across regions.
+
+For the baseline region (Central China), the coefficient on NDVI is small and not statistically significant, suggesting that NDVI is not strongly related to temperature there.
+
+However, once we look at other regions, the pattern changes.
+In East China and North China, the interaction terms are large and positive, indicating that NDVI has a much stronger positive association with temperature in these regions.
+In Southwest China, the effect is extremely strong, with a very steep increase in temperature as NDVI rises.
+
+In contrast, the Northeast shows a negative interaction effect, meaning that the relationship between NDVI and temperature becomes negative in that region.
+This aligns with the visual pattern in the scatter plot.
+
+Overall, the regression results suggest that the relationship between vegetation and temperature is not only non-uniform, but can even change direction depending on the region.
+
+One important takeaway is that regional climate and geography seem to play a major role in shaping this relationship.
+
+In warmer regions, such as South China and Southwest China, higher NDVI tends to coincide with higher temperatures.
+This likely reflects underlying climate conditions, where both vegetation and temperature are naturally higher.
+
+In colder regions, such as the Northeast, the relationship appears closer to what we might expect, with higher vegetation potentially linked to lower temperature.
+
+This suggests that the simple relationship between NDVI and temperature cannot be interpreted in isolation.
+Instead, it is strongly influenced by broader environmental conditions.
+This also reinforces the idea from the previous section that we need to be careful when interpreting the NDVI–temperature relationship, as it may be driven by shared geographic and climatic factors rather than a direct causal effect.
 
 ## 6.4 Distribution Analysis
 
-Textual Descriptions and Explanations
+We further examine how temperature varies across different levels of vegetation coverage.
+NDVI values are grouped into quartiles, and temperature distributions are compared across these groups using boxplots.
+This approach allows us to assess whether cities with higher vegetation consistently experience lower temperatures.
 
 ```{r}
+# 1. grouping by NDVI
+ndvi_grouped <- data_clean %>%
+  mutate(
+    ndvi_group = ntile(ndvi, 4)  # 分成4组（quartiles）
+  )
 
+ndvi_grouped <- ndvi_grouped %>%
+  mutate(
+    ndvi_group = factor(
+      ndvi_group,
+      levels = c(1, 2, 3, 4),
+      labels = c("Low NDVI", "Lower-Mid NDVI", "Upper-Mid NDVI", "High NDVI")
+    )
+  )
 ```
+
+```{r}
+# 2.boxplot
+ggplot(ndvi_grouped, aes(x = ndvi_group, y = temperature)) +
+  geom_boxplot(outlier.alpha = 0.2) +
+  geom_jitter(alpha = 0.1, width = 0.2) +
+  labs(
+    title = "Temperature Distribution Across NDVI Levels",
+    x = "NDVI Group",
+    y = "Temperature (°C)"
+  )
+```
+
+The boxplots show a clear upward shift in temperature as NDVI increases.
+
+From the low NDVI group to the high NDVI group, both the median temperature and the overall distribution move higher.
+In particular, the median temperature increases steadily across the four groups, and the upper range of temperature is also noticeably higher in the high NDVI group.
+
+This pattern is quite consistent across the data.
+Even though there is still variation within each group, the overall trend is very clear: cities with higher NDVI tend to have higher temperatures rather than lower ones.
+
+This result reinforces what we observed in the previous analyses.
+Instead of finding evidence that higher vegetation leads to cooler temperatures, we again see a strong positive association between NDVI and temperature.
+
+One important point is that this pattern is likely driven by broader geographic and climatic differences.
+Regions with warmer climates, such as southern China, tend to have both higher vegetation and higher temperatures.
+As a result, the increase in temperature across NDVI groups may reflect these underlying conditions rather than a direct effect of vegetation itself.
+
+Overall, this distribution-based analysis provides a consistent picture with the earlier regression results and highlights that the relationship between NDVI and temperature is not simply a cooling effect, but is closely linked to regional and climatic context.
 
 ## 6.5 Change Analysis
 
-Textual Descriptions and Explanations
+To better capture dynamic relationships, we analyze year-to-year changes in NDVI and temperature.
+First differences are calculated for both variables, and the relationship between changes in vegetation and changes in temperature is examined.
+This analysis provides additional insight into whether increases or decreases in vegetation are associated with corresponding changes in temperature over time.
 
 ```{r}
+# 1. Calculate year-to-year changes within each city
+change_data <- data_clean %>%
+  arrange(city, year) %>%
+  group_by(city) %>%
+  mutate(
+    d_ndvi = ndvi - lag(ndvi),
+    d_temperature = temperature - lag(temperature)
+  ) %>%
+  ungroup() %>%
+  drop_na(d_ndvi, d_temperature)
 
+glimpse(change_data)
+summary(change_data)
 ```
+
+```{r}
+# 2. Scatter plot of year-to-year changes
+ggplot(change_data, aes(x = d_ndvi, y = d_temperature)) +
+  geom_point(alpha = 0.25, size = 1.6) +
+  geom_smooth(method = "lm", se = TRUE, color = "blue") +
+  labs(
+    title = "Year-to-Year Changes in NDVI and Temperature",
+    x = "Change in NDVI",
+    y = "Change in Temperature (°C)"
+  )
+```
+
+The scatter plot shows the relationship between year-to-year changes in NDVI and temperature within the same city.
+Compared to the earlier scatter plot, the points are now much more concentrated around zero, which makes sense because most year-to-year changes are relatively small.
+
+Despite this, there is still a clear upward trend.
+When NDVI increases in a given year, temperature also tends to increase in that same year.
+The fitted line has a positive slope, and this pattern appears consistently across the data.
+
+At the same time, the plot also shows some extreme observations, where both NDVI and temperature change sharply.
+These outliers suggest that there may be occasional shocks or measurement noise, but they do not change the overall pattern.
+
+```{r}
+# 3. Correlation test for annual changes
+change_cor_test <- cor.test(change_data$d_ndvi, change_data$d_temperature)
+change_cor_test
+```
+
+The correlation coefficient is about 0.56, indicating a moderate positive relationship between changes in NDVI and changes in temperature.
+The p-value is extremely small (p \< 0.001), which means this relationship is statistically significant.
+
+Compared to the earlier level-based analysis, the correlation here is weaker but still clearly positive.
+This suggests that even after focusing only on within-city changes, NDVI and temperature still tend to move in the same direction.
+
+```{r}
+# 4. Linear regression using first differences
+change_lm <- lm(d_temperature ~ d_ndvi, data = change_data)
+summary(change_lm)
+```
+
+The regression results confirm this pattern.
+The coefficient on the change in NDVI is positive and highly significant, indicating that increases in NDVI are associated with increases in temperature within the same city over time.
+
+In practical terms, the coefficient suggests that a one-unit increase in NDVI is associated with a large increase in temperature.
+While the magnitude should be interpreted carefully, the direction of the relationship is very clear.
+
+The R-squared is about 0.31, which means that changes in NDVI explain a meaningful portion of the variation in temperature changes, although a large share is still driven by other factors.
 
 ## 6.6 Spatial Visualization
 
-Textual Descriptions and Explanations
+To complement the statistical analysis, we incorporate a spatial perspective.
+Maps are used to visualize the geographic distribution of NDVI and temperature across cities.
+These spatial patterns help identify regional clusters and highlight geographic variation that may not be apparent in non-spatial plots.
 
 ```{r}
+# 1. Load spatial data
+china_city_sf <- st_read(
+  here("data", "China city level shp.shp")
+)
 
+# Inspect spatial data
+glimpse(china_city_sf)
+st_crs(china_city_sf)
+names(china_city_sf)
 ```
+
+```{r}
+# 2. Prepare one-year city-level data for mapping
+# Here we use 2024 as the most recent year in the dataset
+map_data_2024 <- data_clean %>%
+  filter(year == 2024) %>%
+  select(city_id, city, province, year, ndvi, temperature, region)
+```
+
+```{r}
+# 3. Join city-level NDVI and temperature data to city boundary shapefile
+china_city_sf <- china_city_sf %>%
+  mutate(city_id = as.integer(city))
+
+map_data_2024 <- data_clean %>%
+  filter(year == 2024) %>%
+  mutate(city_id = as.integer(city_id)) %>%
+  select(city_id, city, province, year, ndvi, temperature, region)
+
+china_map_2024 <- china_city_sf %>%
+  left_join(map_data_2024, by = "city_id")
+```
+
+```{r}
+# 4.Spatial Distribution of NDVI
+ggplot(china_map_2024) +
+  geom_sf(aes(fill = ndvi), color = NA) +
+  labs(
+    title = "Spatial Distribution of NDVI Across Chinese Cities, 2024",
+    fill = "NDVI"
+  ) +
+  theme_void()
+```
+
+The NDVI map shows a clear spatial gradient across China.
+Higher NDVI values are concentrated in southern and southeastern regions, especially in South China and parts of Southwest China.
+These areas appear consistently darker on the map, indicating denser vegetation.
+
+In contrast, northern and northwestern regions exhibit much lower NDVI levels.
+Areas in Northwest China and parts of North China are visibly lighter, suggesting sparse vegetation coverage.
+This pattern aligns well with known climatic and geographic differences, where southern China has more favorable conditions for vegetation growth, while arid and semi-arid regions in the northwest have limited vegetation.
+
+```{r}
+# 5. Spatial Distribution of Temperature
+ggplot(china_map_2024) +
+  geom_sf(aes(fill = temperature), color = NA) +
+  labs(
+    title = "Spatial Distribution of Temperature Across Chinese Cities, 2024",
+    fill = "Temperature (°C)"
+  ) +
+  theme_void()
+```
+
+The temperature map reveals a spatial pattern that closely mirrors the NDVI distribution.
+Warmer temperatures are concentrated in southern regions, particularly in South China, where average temperatures are the highest.
+
+In contrast, northern and northeastern regions are much cooler, with noticeably lower temperature values.
+The Northwest also shows relatively low temperatures compared to the south.
+
+This spatial alignment between NDVI and temperature is striking.
+Regions with higher NDVI tend to also have higher temperatures, while regions with lower NDVI tend to be cooler.
+This provides a clear geographic explanation for the positive relationship observed in earlier analyses.
+
+```{r}
+# 6.Regional Average Map
+region_summary_2024 <- map_data_2024 %>%
+  group_by(region) %>%
+  summarise(
+    mean_ndvi = mean(ndvi, na.rm = TRUE),
+    mean_temperature = mean(temperature, na.rm = TRUE),
+    n_cities = n(),
+    .groups = "drop"
+  )
+
+region_summary_2024
+```
+
+The regional summary statistics further support the spatial patterns observed in the maps.
+
+South China has the highest average NDVI (0.67) and also the highest average temperature (23.48°C), making it both the greenest and warmest region.
+Similarly, East China and Central China show relatively high NDVI levels and relatively high temperatures.
+
+In contrast, Northwest China has the lowest average NDVI (0.30) and relatively low temperatures (7.43°C), while Northeast China also shows both low NDVI and low temperature.
+North China falls in between but still follows the same general pattern.
+
+These results confirm that NDVI and temperature tend to move together across regions.
+The consistency between spatial maps and regional averages provides strong evidence that the observed relationship is driven by large-scale geographic differences rather than a simple vegetation effect.
 
 # 7. Results and Interpretation
 
