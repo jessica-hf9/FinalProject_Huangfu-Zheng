@@ -194,9 +194,6 @@ The analysis of first differences examines the relationship between annual chang
 
 At the same time, several extreme observations are present, with large positive or negative changes in either variable. Overall, the relationship in first differences appears weaker and more dispersed compared to the level-based analysis, indicating that the NDVI–temperature association is more clearly observed over long-term trends rather than short-term fluctuations.
 
-
-
-
 # 8. Discussion
 This section interprets the empirical findings in relation to the central research question: How does vegetation cover (NDVI) affect temperature across Chinese cities over time? Building on the results from Section 5 and Section 6, the discussion examines whether vegetation is associated with cooling or warming effects at the city-year scale, and how this relationship varies across temporal, spatial, and analytical dimensions. In particular, the analysis addresses the key sub-questions by evaluating long-term trends, cross-sectional associations, regional heterogeneity, differences across vegetation levels, and short-term dynamics. By situating the empirical results within existing literature, this section aims to clarify the mechanisms underlying the observed NDVI–temperature relationship and to assess the extent to which aggregated patterns reflect underlying environmental processes.
 
@@ -246,7 +243,11 @@ In addition, the effectiveness of vegetation in mitigating heat is context-depen
 Textual Descriptions and Explanations
 
 # 10. Conclusion
-Textual Descriptions and Explanations
+This study investigates the relationship between vegetation cover, as measured by NDVI, and temperature across Chinese cities over the period 2000–2024. By integrating exploratory data analysis with statistical modeling, the findings provide a comprehensive assessment of how vegetation and temperature co-evolve over time and across space.
+
+The results indicate that both NDVI and temperature have increased significantly over the study period and are positively associated at the national scale. Rather than supporting a uniform cooling effect of vegetation, this positive relationship suggests that NDVI and temperature co-vary in response to shared climatic and geographic conditions. In this context, higher vegetation levels are more commonly observed in warmer regions, reflecting large-scale environmental gradients rather than direct thermal effects of vegetation.At the same time, the analysis reveals substantial regional heterogeneity in the NDVI–temperature relationship, with both the magnitude and direction of the association varying across regions. This spatial variation highlights the importance of contextual factors in shaping vegetation–climate interactions. Furthermore, the comparison between level-based and first-difference analyses suggests that the observed relationship is more robust over long-term trends than over short-term fluctuations.
+
+Overall, these findings underscore that the relationship between vegetation and temperature is scale-dependent and context-specific. While vegetation may contribute to localized cooling at finer spatial scales, such effects are not captured at the aggregated city-year level used in this study. The results therefore emphasize the need to carefully consider spatial and temporal scale when interpreting vegetation–temperature relationships and assessing the role of vegetation in urban climate dynamics.
 
 # 11. References
 https://www.mybib.com/j/KnowingFragileSwan
