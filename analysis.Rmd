@@ -199,7 +199,12 @@ At the same time, several extreme observations are present, with large positive 
 
 
 # 8. Discussion
-Textual Descriptions and Explanations
+## 8.1 NDVI and Temperature Have Increased Concurrently Across Chinese Cities
+The results show that both NDVI and temperature have increased significantly across Chinese cities from 2000 to 2024. This finding is consistent with two well-documented large-scale processes in China: climate warming and widespread vegetation greening. Previous studies have shown that China has experienced rapid warming over recent decades, particularly since the late 20th century (Piao et al., 2010). At the same time, satellite-based analyses indicate that China has contributed substantially to global vegetation greening(Zhu et al., 2016), driven by both climate change and large-scale ecological restoration programs (Chen et al., 2019).
+
+The simultaneous increase in NDVI and temperature observed in this study therefore reflects broader coupled dynamics rather than independent trends. Rising temperatures may enhance vegetation growth by extending growing seasons and increasing photosynthetic activity in some regions (Piao et al., 2006), while policy-driven afforestation and land management programs have further amplified vegetation expansion (Liu et al., 2008). These processes together explain why NDVI and temperature increase in parallel over time.
+
+
 
 # 9. Limitations
 Textual Descriptions and Explanations
