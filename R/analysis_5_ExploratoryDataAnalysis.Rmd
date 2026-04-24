@@ -24,21 +24,45 @@ As the first step in the exploratory data analysis, this study examines how NDVI
 Line plots are used to visualize temporal changes in both variables, as they effectively capture year-to-year variation while preserving overall trends. To support interpretation, locally estimated scatterplot smoothing (LOESS) curves are applied to highlight underlying patterns by reducing short-term fluctuations.
 
 The purpose of this step is not to establish relationships between variables, but to provide a descriptive overview of their temporal behavior. By identifying whether NDVI and temperature exhibit increasing, decreasing, or stable trends over the study period, this analysis lays the foundation for subsequent exploration of distributions (Section 5.2) and cross-city heterogeneity (Section 5.3).
+
 ```{r}
 # 1. Read Data
 library(readr)
 processed_city_ndvi_temp_clean <- read_csv("data/processed/processed_city_ndvi_temp_clean.csv")
-View(processed_city_ndvi_temp_clean)
 
-# 2. Aggregate by year
+# 2. Check Data
+View(processed_city_ndvi_temp_clean)
+glimpse(processed_city_ndvi_temp_clean)
+summary(processed_city_ndvi_temp_clean[, c("year", "ndvi", "temperature")])
+
+#Check whether there are sufficient urban observations every year
+processed_city_ndvi_temp_clean %>%
+  group_by(year) %>%
+  summarise(
+    n_city = n_distinct(city),
+    n_obs = n()
+  )
+
+```
+The dataset contains city-level observations of NDVI and temperature from 2000 to 2024. Inspection of the data structure confirms that both NDVI and temperature are recorded as continuous numeric variables, alongside identifiers such as city and year.
+
+Summary statistics show that NDVI values range from 0.060 to 0.829, with a mean of 0.478 and a median of 0.495. Temperature values range from -5.604°C to 27.053°C, with a mean of 13.486°C and a median of 15.140°C.
+
+The yearly observation counts indicate a consistent number of cities (369) and total observations (374) across all years. This suggests that the dataset is balanced over time, with no missing years or substantial variation in the number of observations.
+```{r}
+# 3. Aggregate by year
 ts_data <- processed_city_ndvi_temp_clean %>%
   group_by(year) %>%
   summarise(
     mean_ndvi = mean(ndvi, na.rm = TRUE),
-    mean_temp = mean(temperature, na.rm = TRUE)
+    mean_temp = mean(temperature, na.rm = TRUE),
+    .groups = "drop"
   )
+```
 
-# 3. Temporal Trends of NDVI
+
+```{r}
+# 4. Temporal Trends of NDVI
 ggplot(ts_data, aes(x = year, y = mean_ndvi)) +
   geom_line(color = "darkgreen", size = 1) +
   geom_smooth(method = "loess", color = "darkgrey", se = FALSE) +
@@ -46,25 +70,33 @@ ggplot(ts_data, aes(x = year, y = mean_ndvi)) +
     title = "Temporal Trend of NDVI Across Cities in China (2000–2024)",
     x = "Year",
     y = "Mean NDVI",
-    color = "Variable",
   ) +
   theme_minimal()
+```
+The temporal trend of NDVI shows a clear and steady increase over the study period from 2000 to 2024. The mean NDVI rises from approximately 0.44 in 2000 to above 0.50 by 2024, indicating a gradual upward trend.
 
-# 4. Temporal Trends of Temperature
+While minor year-to-year fluctuations are observed—particularly in the early 2000s and around 2008–2010—the overall trajectory remains consistently increasing. The LOESS smoothed curve further confirms this pattern, showing a continuous upward trend without major reversals.
+
+Overall, the results suggest that average vegetation levels across cities have increased over time, with relatively stable growth throughout the study period.
+
+```{r}
+# 5. Temporal Trends of Temperature
 ggplot(ts_data, aes(x = year, y = mean_temp)) +
   geom_line(color = "darkred", size = 1) +
   geom_smooth(method = "loess", color = "darkgrey", se = FALSE) +
   labs(
     title = "Temporal Trend of Temperature Across Cities in China (2000–2024)",
     x = "Year",
-    y = "Mean Temperature (°C)"
+    y = "Mean Temperature (°C)",
   ) +
   theme_minimal()
-
 ```
-The temporal trend of NDVI shows a clear and consistent upward pattern from 2000 to 2024. The average NDVI increases from approximately 0.44 in the early 2000s to above 0.50 in recent years, indicating a gradual enhancement in vegetation coverage across Chinese cities.Although minor fluctuations are observed in certain years, the overall trajectory remains steadily increasing, as confirmed by the smoothed trend line. This pattern suggests that urban greening efforts, land-use changes, or ecological restoration policies may have contributed to improved vegetation conditions over time.
+The temporal trend of temperature shows an overall increasing pattern from 2000 to 2024. The mean temperature rises from approximately 13.0°C in 2000 to above 14.0°C by the end of the study period.
 
-In contrast, the temporal trend of temperature also exhibits an overall upward trajectory, though with more pronounced interannual variability. The average temperature rises from around 13.0°C in 2000 to above 14.0°C by 2024.The smoothed trend line indicates a relatively stable period in the early 2000s, followed by a clearer warming trend after approximately 2012. The noticeable fluctuations across years reflect the influence of short-term climatic variability, but the long-term pattern remains one of gradual warming.
+Compared to NDVI, temperature exhibits more pronounced year-to-year fluctuations, particularly between 2000 and 2012, where several short-term increases and decreases are observed. Despite this variability, the overall trend remains upward.
+
+The LOESS smoothed curve highlights a relatively stable or slightly declining period in the early years, followed by a clearer and more consistent increase after around 2012. This indicates that the warming trend becomes more pronounced in the later period.
+
 ## 5.2 Distribution of Key Variables
 Following the examination of temporal trends, the analysis next focuses on the distribution of key variables across all observations. Understanding the distributional properties of NDVI and temperature is essential for interpreting the overall data structure before conducting further analysis.
 
